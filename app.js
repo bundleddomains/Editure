@@ -48,18 +48,13 @@ function selectLayer(n){
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
 
-/* 🔥 FINAL: selective background stripper (ONLY removes outer) */
+/* 🔥 REAL FIX: remove background ONLY from first style block */
 function stripBackgrounds(str){
 
-  let removed = false
-
-  return str.replace(/background\s*:[^;]+;/gi, (match) => {
-    if(!removed){
-      removed = true
-      return "" // remove ONLY first background
-    }
-    return match // keep all others
-  })
+  return str.replace(
+    /(style\s*=\s*["'][^"']*?)background\s*:[^;]+;?/i,
+    "$1"
+  )
 }
 
 function run(){
