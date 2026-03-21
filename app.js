@@ -130,4 +130,4 @@ document.getElementById("paste").onclick=
 
 document.getElementById("run").onclick=run
 document.getElementById("clear").onclick=clearLayer
-document.getElementById("kill").onclick=kill
+document.getElementById("stop").onclick=kill
