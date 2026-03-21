@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editure Lab v2</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="bar">
+
+<div class="row">
+<button id="paste">Paste</button>
+<button id="run">Run</button>
+<button id="clear">Clear Layer</button>
+<button id="kill">Kill</button>
+<button id="toggleCode">Code</button>
+</div>
+
+<div class="row" id="layers"></div>
+
+<div class="row">
+<label>X <input type="range" id="rotX" min="-60" max="60" value="0"></label>
+<label>Y <input type="range" id="rotY" min="-180" max="180" value="0"></label>
+</div>
+
+<div class="row">
+<label style="width:100%">Camera Orbit
+<input type="range" id="orbit" min="-180" max="180" value="0">
+</label>
+</div>
+
+</div>
+
+<textarea id="code" placeholder="paste code here"></textarea>
+
+<div id="wrap">
+<div class="scene">
+<div class="viewer" id="viewer">
+<div class="panel" id="panel">
+<iframe id="pv"
+sandbox="allow-scripts allow-same-origin"
+scrolling="no"></iframe>
+</div>
+</div>
+</div>
+</div>
+
+<script src="renderer.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
