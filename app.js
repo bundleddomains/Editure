@@ -6,6 +6,7 @@ const orbit = document.getElementById("orbit")
 const viewer = document.getElementById("viewer")
 const toggleCodeBtn = document.getElementById("toggleCode")
 const wrap = document.getElementById("wrap")
+const bgBtn = document.getElementById("bg")
 
 let currentLayer = 1
 let layers = {}
@@ -13,7 +14,7 @@ let layerTransforms = {}
 
 for(let i=1;i<=8;i++){
   layers[i] = ""
-  layerTransforms[i] = {x:0,y:0}
+  layerTransforms[i] = {x:0,y:0,bg:true}
 }
 
 const layerWrap = document.getElementById("layers")
@@ -43,6 +44,9 @@ function selectLayer(n){
   codeEl.value=layers[n]||""
   rotX.value=layerTransforms[n].x
   rotY.value=layerTransforms[n].y
+
+  // sync BG button
+  bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
 
 function run(){
@@ -66,7 +70,8 @@ function clearLayer(){
   renderLayers(layers, layerTransforms)
 }
 
-function kill(){
+/* ✅ RENAMED: stop instead of kill */
+function stop(){
   const old=document.getElementById("pv")
   const fresh=document.createElement("iframe")
 
@@ -96,6 +101,18 @@ rotY.oninput=updateRotation
 
 orbit.oninput=()=>{
   viewer.style.transform=`rotateY(${orbit.value}deg)`
+}
+
+// BG toggle
+bgBtn.onclick = () => {
+  if(!currentLayer) return
+
+  let t = layerTransforms[currentLayer]
+  t.bg = !t.bg
+
+  bgBtn.classList.toggle("active", !t.bg)
+
+  renderLayers(layers, layerTransforms)
 }
 
 function formatCode(str){
@@ -130,4 +147,4 @@ document.getElementById("paste").onclick=
 
 document.getElementById("run").onclick=run
 document.getElementById("clear").onclick=clearLayer
-document.getElementById("stop").onclick=kill
+document.getElementById("stop").onclick=stop
