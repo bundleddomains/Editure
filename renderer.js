@@ -13,32 +13,12 @@ function renderLayers(layers, layerTransforms){
     let t = layerTransforms[i]
     let code = layers[i].trim()
 
-    // 🔥 FULL DOCUMENT MODE (FIXED)
+    // 🔥 FULL DOCUMENT MODE (NO WRAPPING AT ALL)
     if(
-      /<html[\s>]/i.test(code) ||
-      /<head[\s>]/i.test(code) ||
-      /<body[\s>]/i.test(code) ||
-      /<!doctype/i.test(code)
+      /<!doctype/i.test(code) ||
+      /<html[\s>]/i.test(code)
     ){
-
-      iframe().srcdoc = `
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-html,body{
-  margin:0;
-  height:100%;
-}
-</style>
-</head>
-<body>
-${code}
-</body>
-</html>
-`
+      iframe().srcdoc = code
       return
     }
 
