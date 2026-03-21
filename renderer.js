@@ -11,7 +11,19 @@ function renderLayers(layers, layerTransforms){
 
     let i = Object.keys(layers).find(k=>layers[k].trim()!="")
     let t = layerTransforms[i]
+    let code = layers[i]
 
+    // 🔥 NEW: detect FULL DOCUMENT
+    if(
+      code.includes("<html") ||
+      code.includes("<style") ||
+      code.includes("<body")
+    ){
+      iframe().srcdoc = code
+      return
+    }
+
+    // 🔹 NORMAL COMPONENT MODE
     let html = `
 <body style="
 margin:0;
@@ -28,7 +40,7 @@ left:50%;
 transform:translate(-50%,-50%) rotateX(${t.x}deg) rotateY(${t.y}deg);
 transform-style:preserve-3d;
 ">
-${layers[i]}
+${code}
 </div>
 </body>
 `
@@ -37,7 +49,7 @@ ${layers[i]}
     return
   }
 
-  // 🔹 MULTI LAYER MODE (always transparent)
+  // 🔹 MULTI LAYER MODE (always component-based)
   let html = `<body style="margin:0;background:transparent;position:relative;">`
 
   for(let i=1;i<=8;i++){
