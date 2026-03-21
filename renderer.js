@@ -12,7 +12,7 @@ function renderLayers(layers, layerTransforms){
     let t = layerTransforms[i]
     let code = layers[i].trim()
 
-    // 🔥 FULL DOCUMENT MODE
+    // 🔥 FULL DOCUMENT MODE (leave user art untouched BUT control iframe environment)
     if(
       /<!doctype/i.test(code) ||
       /<html[\s>]/i.test(code)
@@ -21,21 +21,20 @@ function renderLayers(layers, layerTransforms){
 
       f.srcdoc = code
 
-      // 🔥 CRITICAL FIX
+      // ✅ FORCE NEUTRAL VIEWPORT
       f.style.width = "100%"
       f.style.height = "100%"
-      f.style.background = "#ffffff"
-
-      // 👇 THIS IS THE REAL FIX
+      f.style.background = "#111"
       f.style.isolation = "isolate"
 
       return
     }
 
+    // 🔹 COMPONENT MODE (ALWAYS neutral now)
     let html = `
 <body style="
 margin:0;
-background:${t.bg ? "black" : "transparent"};
+background:#111;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -58,7 +57,15 @@ ${code}
     return
   }
 
-  let html = `<body style="margin:0;background:transparent;position:relative;isolation:isolate;">`
+  // 🔹 MULTI LAYER MODE (ALSO neutral)
+  let html = `
+<body style="
+margin:0;
+background:#111;
+position:relative;
+isolation:isolate;
+">
+`
 
   for(let i=1;i<=8;i++){
     if(layers[i] && layers[i].trim() !== ""){
