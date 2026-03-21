@@ -4,26 +4,27 @@ function iframe(){
 
 function renderLayers(layers, layerTransforms){
 
-  let activeLayers = Object.values(layers).filter(v=>v.trim()!="")
+  let activeLayers = Object.values(layers).filter(v => v.trim() !== "")
 
   // 🔹 SINGLE LAYER MODE
-  if(activeLayers.length===1){
+  if(activeLayers.length === 1){
 
-    let i = Object.keys(layers).find(k=>layers[k].trim()!="")
+    let i = Object.keys(layers).find(k => layers[k].trim() !== "")
     let t = layerTransforms[i]
-    let code = layers[i]
+    let code = layers[i].trim()
 
-    // 🔥 NEW: detect FULL DOCUMENT
+    // 🔥 FULL DOCUMENT MODE
     if(
-      code.includes("<html") ||
-      code.includes("<style") ||
-      code.includes("<body")
+      /<html[\s>]/i.test(code) ||
+      /<head[\s>]/i.test(code) ||
+      /<body[\s>]/i.test(code) ||
+      /<!doctype/i.test(code)
     ){
       iframe().srcdoc = code
       return
     }
 
-    // 🔹 NORMAL COMPONENT MODE
+    // 🔹 COMPONENT MODE
     let html = `
 <body style="
 margin:0;
@@ -49,11 +50,11 @@ ${code}
     return
   }
 
-  // 🔹 MULTI LAYER MODE (always component-based)
+  // 🔹 MULTI LAYER MODE
   let html = `<body style="margin:0;background:transparent;position:relative;">`
 
   for(let i=1;i<=8;i++){
-    if(layers[i]){
+    if(layers[i] && layers[i].trim() !== ""){
 
       const t = layerTransforms[i]
 
