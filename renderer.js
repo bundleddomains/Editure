@@ -13,19 +13,20 @@ function renderLayers(layers, layerTransforms){
     let t = layerTransforms[i]
     let code = layers[i].trim()
 
-    // 🔥 FULL DOCUMENT MODE (TRUE FIX)
+    // 🔥 FULL DOCUMENT MODE (NEUTRAL ENVIRONMENT)
     if(
       /<!doctype/i.test(code) ||
       /<html[\s>]/i.test(code)
     ){
-      // ✅ DO NOT MODIFY, DO NOT EXTRACT, DO NOT WRAP
-      iframe().srcdoc = code
-
-      // 🔥 ensure iframe environment is correct
       const f = iframe()
+
+      // ✅ render EXACT code
+      f.srcdoc = code
+
+      // 🔥 KEY FIX: neutral/light render surface
       f.style.width = "100%"
       f.style.height = "100%"
-      f.style.background = "#000" // needed for blend modes
+      f.style.background = "#ffffff" // ← THIS FIXES YOUR COLOR SHIFT
 
       return
     }
