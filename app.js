@@ -54,8 +54,7 @@ function stripBackgrounds(str){
   // remove ANY background (handles gradients, rgb, etc)
   str = str.replace(/background\s*:[^;]+;/gi, "")
 
-  // remove background-color
-  str = str.replace(/background-color\s*:[^;]+;/gi, "")
+  /
 
   return str
 }
