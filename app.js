@@ -48,18 +48,16 @@ function selectLayer(n){
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
 
-/* 🔥 FINAL++: remove outer background + box artifacts ONLY */
+/* 🔥 FINAL FORM: remove outer wrapper entirely */
 function stripBackgrounds(str){
 
-  return str.replace(
-    /(style\s*=\s*["'][^"']*?)background\s*:[^;]+;?/i,
-    (match) => {
-      return match
-        .replace(/background\s*:[^;]+;?/i, "")
-        .replace(/box-shadow\s*:[^;]+;?/i, "")
-        .replace(/border-radius\s*:[^;]+;?/i, "")
-    }
-  )
+  // remove first opening div (outer wrapper)
+  str = str.replace(/<div[^>]*>/i, "")
+
+  // remove last closing div (matching wrapper)
+  str = str.replace(/<\/div>\s*$/i, "")
+
+  return str
 }
 
 function run(){
