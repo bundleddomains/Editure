@@ -48,10 +48,15 @@ function selectLayer(n){
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
 
-/* 🔥 NEW: background stripper */
+/* 🔥 FIXED: stronger background stripper */
 function stripBackgrounds(str){
-  str = str.replace(/background\s*:[^;"']+;?/gi, "")
-  str = str.replace(/background-color\s*:[^;"']+;?/gi, "")
+
+  // remove ANY background (handles gradients, rgb, etc)
+  str = str.replace(/background\s*:[^;]+;/gi, "")
+
+  // remove background-color
+  str = str.replace(/background-color\s*:[^;]+;/gi, "")
+
   return str
 }
 
@@ -60,7 +65,6 @@ function run(){
 
   const t = layerTransforms[currentLayer]
 
-  // ✅ apply stripping ONLY when BG is OFF
   const processed = t.bg
     ? raw
     : stripBackgrounds(raw)
