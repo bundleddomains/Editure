@@ -13,12 +13,39 @@ function renderLayers(layers, layerTransforms){
     let t = layerTransforms[i]
     let code = layers[i].trim()
 
-    // 🔥 FULL DOCUMENT MODE (NO WRAPPING AT ALL)
+    // 🔥 FULL DOCUMENT MODE (FIXED PROPERLY)
     if(
       /<!doctype/i.test(code) ||
       /<html[\s>]/i.test(code)
     ){
-      iframe().srcdoc = code
+
+      // 🔥 extract ONLY inside <body>
+      let bodyMatch = code.match(/<body[^>]*>([\s\S]*)<\/body>/i)
+      let inner = bodyMatch ? bodyMatch[1] : code
+
+      // 🔥 extract styles from <head>
+      let styleMatch = code.match(/<style[^>]*>([\s\S]*)<\/style>/i)
+      let styles = styleMatch ? styleMatch[1] : ""
+
+      iframe().srcdoc = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+html,body{
+  margin:0;
+  height:100%;
+  background:#000; /* 🔥 needed for blend-mode */
+}
+${styles}
+</style>
+</head>
+<body>
+${inner}
+</body>
+</html>
+`
       return
     }
 
