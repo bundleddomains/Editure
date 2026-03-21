@@ -6,32 +6,32 @@ function renderLayers(layers, layerTransforms){
 
   let activeLayers = Object.values(layers).filter(v => v.trim() !== "")
 
-  // 🔹 SINGLE LAYER MODE
   if(activeLayers.length === 1){
 
     let i = Object.keys(layers).find(k => layers[k].trim() !== "")
     let t = layerTransforms[i]
     let code = layers[i].trim()
 
-    // 🔥 FULL DOCUMENT MODE (NEUTRAL ENVIRONMENT)
+    // 🔥 FULL DOCUMENT MODE
     if(
       /<!doctype/i.test(code) ||
       /<html[\s>]/i.test(code)
     ){
       const f = iframe()
 
-      // ✅ render EXACT code
       f.srcdoc = code
 
-      // 🔥 KEY FIX: neutral/light render surface
+      // 🔥 CRITICAL FIX
       f.style.width = "100%"
       f.style.height = "100%"
-      f.style.background = "#ffffff" // ← THIS FIXES YOUR COLOR SHIFT
+      f.style.background = "#ffffff"
+
+      // 👇 THIS IS THE REAL FIX
+      f.style.isolation = "isolate"
 
       return
     }
 
-    // 🔹 COMPONENT MODE
     let html = `
 <body style="
 margin:0;
@@ -40,6 +40,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 height:100vh;
+isolation:isolate;
 ">
 <div style="
 position:absolute;
@@ -57,8 +58,7 @@ ${code}
     return
   }
 
-  // 🔹 MULTI LAYER MODE
-  let html = `<body style="margin:0;background:transparent;position:relative;">`
+  let html = `<body style="margin:0;background:transparent;position:relative;isolation:isolate;">`
 
   for(let i=1;i<=8;i++){
     if(layers[i] && layers[i].trim() !== ""){
