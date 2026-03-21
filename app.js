@@ -48,15 +48,18 @@ function selectLayer(n){
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
 
-/* 🔥 FIXED: stronger background stripper */
+/* 🔥 FINAL: selective background stripper (ONLY removes outer) */
 function stripBackgrounds(str){
 
-  // remove ANY background (handles gradients, rgb, etc)
-  str = str.replace(/background\s*:[^;]+;/gi, "")
+  let removed = false
 
-  /
-
-  return str
+  return str.replace(/background\s*:[^;]+;/gi, (match) => {
+    if(!removed){
+      removed = true
+      return "" // remove ONLY first background
+    }
+    return match // keep all others
+  })
 }
 
 function run(){
