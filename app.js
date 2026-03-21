@@ -45,13 +45,27 @@ function selectLayer(n){
   rotX.value=layerTransforms[n].x
   rotY.value=layerTransforms[n].y
 
-  // sync BG button
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
+}
+
+/* 🔥 NEW: background stripper */
+function stripBackgrounds(str){
+  str = str.replace(/background\s*:[^;"']+;?/gi, "")
+  str = str.replace(/background-color\s*:[^;"']+;?/gi, "")
+  return str
 }
 
 function run(){
   const raw=(codeEl.value||"").trim()
-  layers[currentLayer]=raw
+
+  const t = layerTransforms[currentLayer]
+
+  // ✅ apply stripping ONLY when BG is OFF
+  const processed = t.bg
+    ? raw
+    : stripBackgrounds(raw)
+
+  layers[currentLayer]=processed
 
   renderLayers(layers, layerTransforms)
 
@@ -70,7 +84,6 @@ function clearLayer(){
   renderLayers(layers, layerTransforms)
 }
 
-/* ✅ RENAMED: stop instead of kill */
 function stop(){
   const old=document.getElementById("pv")
   const fresh=document.createElement("iframe")
@@ -103,7 +116,6 @@ orbit.oninput=()=>{
   viewer.style.transform=`rotateY(${orbit.value}deg)`
 }
 
-// BG toggle
 bgBtn.onclick = () => {
   if(!currentLayer) return
 
