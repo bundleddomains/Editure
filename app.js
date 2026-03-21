@@ -48,14 +48,15 @@ function selectLayer(n){
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
 
-/* 🔥 FINAL FORM: remove outer wrapper entirely */
+/* 🔥 TRUE FINAL: remove wrapper + outer glow only */
 function stripBackgrounds(str){
 
-  // remove first opening div (outer wrapper)
+  // remove outer wrapper div
   str = str.replace(/<div[^>]*>/i, "")
-
-  // remove last closing div (matching wrapper)
   str = str.replace(/<\/div>\s*$/i, "")
+
+  // remove NON-inset shadows (outer glow causing square)
+  str = str.replace(/box-shadow:\s*(?!inset)[^;]+;/gi, "")
 
   return str
 }
