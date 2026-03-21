@@ -48,12 +48,17 @@ function selectLayer(n){
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
 
-/* 🔥 REAL FIX: remove background ONLY from first style block */
+/* 🔥 FINAL++: remove outer background + box artifacts ONLY */
 function stripBackgrounds(str){
 
   return str.replace(
     /(style\s*=\s*["'][^"']*?)background\s*:[^;]+;?/i,
-    "$1"
+    (match) => {
+      return match
+        .replace(/background\s*:[^;]+;?/i, "")
+        .replace(/box-shadow\s*:[^;]+;?/i, "")
+        .replace(/border-radius\s*:[^;]+;?/i, "")
+    }
   )
 }
 
