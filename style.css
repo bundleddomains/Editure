@@ -27,41 +27,77 @@ gap:10px;
 flex-wrap:wrap;
 }
 
-/* CLEAN BUTTON SYSTEM */
+/* BASE BUTTON (structure only) */
 button{
-background:#2a2f36;
 color:#fff;
-border:1px solid #3a414c;
+border:none;
 padding:8px 14px;
 cursor:pointer;
-transition:transform 0.08s ease, background 0.15s ease;
+border-radius:8px;
+transition:transform 0.08s ease, box-shadow 0.2s ease, filter 0.15s ease;
 }
 
-/* subtle hover */
-button:hover{
-background:#343a43;
-}
-
-/* tactile press */
+/* press feel */
 button:active{
 transform:scale(0.96);
 }
 
-/* remove loud active color */
-button.active{
-background:#3a414c;
-border-color:#3a414c;
+/* subtle hover */
+button:hover{
+filter:brightness(1.05);
 }
 
-/* layer buttons */
+/* === COLOR SYSTEM (EXTRACTED) === */
+
+/* Paste (neutral) */
+#paste{
+background:#555;
+box-shadow:0 0 10px rgba(255,255,255,0.08);
+}
+
+/* Run (green) */
+#run{
+background:#4caf50;
+box-shadow:0 0 10px rgba(76,175,80,0.6);
+}
+
+/* Clear (red) */
+#clear{
+background:#f44336;
+box-shadow:0 0 10px rgba(244,67,54,0.6);
+}
+
+/* Stop (purple = strong action) */
+#stop{
+background:#9c27b0;
+box-shadow:0 0 10px rgba(156,39,176,0.6);
+}
+
+/* Code (blue = utility) */
+#toggleCode{
+background:#2196f3;
+box-shadow:0 0 10px rgba(33,150,243,0.6);
+}
+
+/* BG (orange = accent) */
+#bg{
+background:#ff9800;
+box-shadow:0 0 10px rgba(255,152,0,0.6);
+}
+
+/* === LAYER BUTTONS === */
 .layer{
-background:#3a3a3a;
+background:#555;
+color:#fff;
+border-radius:8px;
 }
 
-/* selected layer (neutral, not loud) */
+/* ACTIVE LAYER (THIS was missing before) */
 .layer.active{
-background:#777;
+background:yellow;
 color:#000;
+border:1px solid rgba(0,0,0,0.2);
+box-shadow:0 0 10px rgba(255,255,0,0.4);
 }
 
 label{
