@@ -7,9 +7,9 @@ function renderLayers(layers, layerTransforms){
   const yRot = layerTransforms[1].y || 0;
   const thickness = layerTransforms[1].z || 0; // slider controls "pseudo-thickness"
 
-  // number of stacked layers based on thickness
-  const stackCount = Math.max(1, Math.round(Math.abs(thickness) / 20));
-  const stackSpacing = thickness / stackCount;
+  // stack count and spacing based on slider
+  const stackCount = Math.max(1, Math.round(Math.abs(thickness) / 5));
+  const stackSpacing = thickness >= 0 ? 2 : -2; // move down or up based on slider
 
   let html = `
   <body style="
@@ -36,15 +36,15 @@ function renderLayers(layers, layerTransforms){
     if(layers[i] && layers[i].trim() !== ""){
       const content = layers[i];
 
-      // stack copies to fake thickness
+      // stack copies vertically to fake thickness
       for(let s = 0; s < stackCount; s++){
-        const zOffset = stackSpacing * s;
+        const yOffset = s * stackSpacing;
         html += `
         <div style="
           position:absolute;
           top:50%;
           left:50%;
-          transform: translate(-50%, -50%) translateZ(${zOffset}px);
+          transform: translate(-50%, calc(-50% + ${yOffset}px));
         ">
           ${content}
         </div>
