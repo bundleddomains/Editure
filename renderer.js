@@ -5,11 +5,11 @@ function renderLayers(layers, layerTransforms){
 
   const xRot = layerTransforms[1].x || 0;
   const yRot = layerTransforms[1].y || 0;
-  const thickness = layerTransforms[1].z || 0; // slider controls "pseudo-thickness"
+  const thickness = layerTransforms[1].z || 0; // slider
 
-  // stack count and spacing based on slider
+  // determine number of stacked copies based on slider
   const stackCount = Math.max(1, Math.round(Math.abs(thickness) / 5));
-  const stackSpacing = thickness >= 0 ? 2 : -2; // move down or up based on slider
+  const stackSpacing = thickness >= 0 ? 2 : -2; // positive or negative offset
 
   let html = `
   <body style="
@@ -36,7 +36,7 @@ function renderLayers(layers, layerTransforms){
     if(layers[i] && layers[i].trim() !== ""){
       const content = layers[i];
 
-      // stack copies vertically to fake thickness
+      // stack copies vertically for pseudo-thickness
       for(let s = 0; s < stackCount; s++){
         const yOffset = s * stackSpacing;
         html += `
