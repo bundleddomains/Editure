@@ -4,54 +4,136 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Editure Lab v2</title>
-
-<link rel="stylesheet" href="style.css">
+<style>
+  body { margin:0; background:#111; color:#fff; font-family:sans-serif; }
+  #bar { padding:10px; background:#222; display:flex; flex-direction:column; gap:5px; }
+  .row { display:flex; gap:5px; align-items:center; }
+  input[type=range] { width:150px; }
+  #wrap { position:relative; width:100vw; height:calc(100vh - 120px); overflow:hidden; }
+  iframe { width:100%; height:100%; border:0; background:#111; }
+</style>
 </head>
 
 <body>
 
 <div id="bar">
 
-<div class="row">
-<button id="paste">Paste</button>
-<button id="run">Run</button>
-<button id="clear">Clear</button>
-<button id="stop">Stop</button>
-<button id="toggleCode">Code</button>
-<button id="bg">BG</button>
-</div>
+  <div class="row">
+    <button id="paste">Paste</button>
+    <button id="run">Run</button>
+    <button id="clear">Clear</button>
+    <button id="stop">Stop</button>
+    <button id="toggleCode">Code</button>
+    <button id="bg">BG</button>
+  </div>
 
-<div class="row" id="layers"></div>
+  <div class="row" id="layers"></div>
 
-<div class="row">
-<label>X <input type="range" id="rotX" min="-60" max="60" value="0"></label>
-<label>Y <input type="range" id="rotY" min="-180" max="180" value="0"></label>
-</div>
+  <div class="row">
+    <label>X <input type="range" id="rotX" min="-60" max="60" value="0"></label>
+    <label>Y <input type="range" id="rotY" min="-180" max="180" value="0"></label>
+  </div>
 
-<div class="row">
-<label style="width:100%">Camera Orbit
-<input type="range" id="orbit" min="-180" max="180" value="0">
-</label>
-</div>
+  <div class="row">
+    <label>Thickness
+      <input type="range" id="thick" min="-500" max="500" value="0">
+    </label>
+  </div>
+
+  <div class="row">
+    <label style="width:100%">Camera Orbit
+      <input type="range" id="orbit" min="-180" max="180" value="0">
+    </label>
+  </div>
 
 </div>
 
 <textarea id="code" placeholder="paste code here"></textarea>
 
 <div id="wrap">
-<div class="scene">
-<div class="viewer" id="viewer">
-<div class="panel" id="panel">
-<iframe id="pv"
-sandbox="allow-scripts allow-same-origin"
-scrolling="no"></iframe>
-</div>
-</div>
-</div>
+  <div class="scene">
+    <div class="viewer" id="viewer">
+      <div class="panel" id="panel">
+        <iframe id="pv" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+      </div>
+    </div>
+  </div>
 </div>
 
-<script src="renderer.js"></script>
-<script src="app.js"></script>
+<script>
+// ======= LAYERS & TRANSFORMS =======
+let layers = {1:""}; // default single layer
+let layerTransforms = {1:{x:0, y:0, z:0}};
+
+// ======= RENDER FUNCTION =======
+function renderLayers(layers, layerTransforms){
+  const f = document.getElementById("pv");
+  const activeLayers = Object.values(layers).filter(v => v.trim() !== "");
+  if(activeLayers.length === 0) return;
+
+  const xRot = layerTransforms[1].x || 0;
+  const yRot = layerTransforms[1].y || 0;
+  const thickness = layerTransforms[1].z || 0;
+
+  let html = `
+  <body style="
+    margin:0;
+    background:#111;
+    height:100vh;
+    width:100vw;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    isolation:isolate;
+    perspective:1000px;
+  ">
+    <div id="container" style="
+      transform-style: preserve-3d;
+      transform: rotateX(${xRot}deg) rotateY(${yRot}deg) translateZ(${thickness}px);
+      width:100%;
+      height:100%;
+      position:relative;
+    ">
+  `;
+
+  for(let i=1;i<=8;i++){
+    if(layers[i] && layers[i].trim() !== ""){
+      html += `<div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">${layers[i]}</div>`;
+    }
+  }
+
+  html += `</div></body>`;
+  f.srcdoc = html;
+}
+
+// ======= SLIDERS =======
+const rotX = document.getElementById("rotX");
+const rotY = document.getElementById("rotY");
+const thick = document.getElementById("thick");
+
+function updateTransforms(){
+  layerTransforms[1] = layerTransforms[1] || {};
+  layerTransforms[1].x = parseFloat(rotX.value);
+  layerTransforms[1].y = parseFloat(rotY.value);
+  layerTransforms[1].z = parseFloat(thick.value);
+  renderLayers(layers, layerTransforms);
+}
+
+rotX.addEventListener("input", updateTransforms);
+rotY.addEventListener("input", updateTransforms);
+thick.addEventListener("input", updateTransforms);
+
+// ======= BUTTONS =======
+document.getElementById("paste").onclick = () => {
+  layers[1] = document.getElementById("code").value;
+  renderLayers(layers, layerTransforms);
+};
+document.getElementById("run").onclick = () => renderLayers(layers, layerTransforms);
+document.getElementById("clear").onclick = () => {
+  layers[1] = "";
+  renderLayers(layers, layerTransforms);
+};
+</script>
 
 </body>
 </html>
