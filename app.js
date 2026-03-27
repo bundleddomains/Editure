@@ -7,6 +7,7 @@ const viewer = document.getElementById("viewer")
 const toggleCodeBtn = document.getElementById("toggleCode")
 const wrap = document.getElementById("wrap")
 const bgBtn = document.getElementById("bg")
+const thick = document.getElementById("thick") // ✅ NEW
 
 let currentLayer = 1
 let layers = {}
@@ -14,7 +15,7 @@ let layerTransforms = {}
 
 for(let i=1;i<=8;i++){
   layers[i] = ""
-  layerTransforms[i] = {x:0,y:0,bg:true}
+  layerTransforms[i] = {x:0,y:0,z:0,bg:true} // ✅ z added
 }
 
 const layerWrap = document.getElementById("layers")
@@ -44,33 +45,27 @@ function selectLayer(n){
   codeEl.value=layers[n]||""
   rotX.value=layerTransforms[n].x
   rotY.value=layerTransforms[n].y
+  thick.value=layerTransforms[n].z || 0 // ✅ sync slider
 
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
 
 /* 🔥 TRUE FINAL: pure extraction (NO style edits) */
 function stripBackgrounds(str){
-
   const match = str.match(/^\s*<div[^>]*>([\s\S]*)<\/div>\s*$/i)
-
   if(match){
-    return match[1] // return ONLY inner content
+    return match[1]
   }
-
   return str
 }
 
 function run(){
   const raw=(codeEl.value||"").trim()
-
   const t = layerTransforms[currentLayer]
 
-  const processed = t.bg
-    ? raw
-    : stripBackgrounds(raw)
+  const processed = t.bg ? raw : stripBackgrounds(raw)
 
   layers[currentLayer]=processed
-
   renderLayers(layers, layerTransforms)
 
   panel.style.opacity="1"
@@ -104,17 +99,25 @@ function stop(){
 
 function updateRotation(){
   if(currentLayer){
-    layerTransforms[currentLayer].x=rotX.value
-    layerTransforms[currentLayer].y=rotY.value
+    layerTransforms[currentLayer].x = parseFloat(rotX.value) || 0
+    layerTransforms[currentLayer].y = parseFloat(rotY.value) || 0
     renderLayers(layers, layerTransforms)
   }else{
-    panel.style.transform=
+    panel.style.transform =
     `rotateX(${rotX.value}deg) rotateY(${rotY.value}deg)`
   }
 }
 
-rotX.oninput=updateRotation
-rotY.oninput=updateRotation
+function updateThickness(){ // ✅ NEW
+  if(currentLayer){
+    layerTransforms[currentLayer].z = parseFloat(thick.value) || 0
+    renderLayers(layers, layerTransforms)
+  }
+}
+
+rotX.oninput = updateRotation
+rotY.oninput = updateRotation
+thick.oninput = updateThickness // ✅ connected
 
 orbit.oninput=()=>{
   viewer.style.transform=`rotateY(${orbit.value}deg)`
@@ -158,9 +161,9 @@ toggleCodeBtn.onclick=()=>{
   }
 }
 
-document.getElementById("paste").onclick=
+document.getElementById("paste").onclick =
 ()=>paste().catch(()=>alert("paste blocked"))
 
-document.getElementById("run").onclick=run
-document.getElementById("clear").onclick=clearLayer
-document.getElementById("stop").onclick=stop
+document.getElementById("run").onclick = run
+document.getElementById("clear").onclick = clearLayer
+document.getElementById("stop").onclick = stop
