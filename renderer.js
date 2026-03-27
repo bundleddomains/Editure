@@ -25,7 +25,7 @@ function renderLayers(layers, layerTransforms){
       transform-style: preserve-3d;
       transform: rotateX(${xRot}deg) 
                  rotateY(${yRot}deg) 
-                 translateZ(${thickness}px);
+                 scaleZ(${thickness / 200 + 1});
       width:100%;
       height:100%;
       position:relative;
