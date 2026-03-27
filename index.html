@@ -9,7 +9,7 @@
   #bar { padding:10px; background:#222; display:flex; flex-direction:column; gap:5px; }
   .row { display:flex; gap:5px; align-items:center; }
   input[type=range] { width:150px; }
-  #wrap { position:relative; width:100vw; height:calc(100vh - 120px); overflow:hidden; }
+  #wrap { position:relative; width:100vw; height:calc(100vh - 140px); overflow:hidden; }
   iframe { width:100%; height:100%; border:0; background:#111; }
 </style>
 </head>
@@ -62,8 +62,11 @@
 
 <script>
 // ======= LAYERS & TRANSFORMS =======
-let layers = {1:""}; // default single layer
+let layers = {1:""}; 
 let layerTransforms = {1:{x:0, y:0, z:0}};
+
+// ======= DEFAULT GRADIENT =======
+layers[1] = `<div style="width:500px;height:500px;background:linear-gradient(135deg,red,orange,pink,yellow,lightblue,white);"></div>`;
 
 // ======= RENDER FUNCTION =======
 function renderLayers(layers, layerTransforms){
@@ -125,14 +128,18 @@ thick.addEventListener("input", updateTransforms);
 
 // ======= BUTTONS =======
 document.getElementById("paste").onclick = () => {
-  layers[1] = document.getElementById("code").value;
+  const codeVal = document.getElementById("code").value;
+  if(codeVal.trim() !== "") layers[1] = codeVal;
   renderLayers(layers, layerTransforms);
 };
 document.getElementById("run").onclick = () => renderLayers(layers, layerTransforms);
 document.getElementById("clear").onclick = () => {
-  layers[1] = "";
+  layers[1] = `<div style="width:500px;height:500px;background:linear-gradient(135deg,red,orange,pink,yellow,lightblue,white);"></div>`;
   renderLayers(layers, layerTransforms);
 };
+
+// ======= INITIAL RENDER =======
+renderLayers(layers, layerTransforms);
 </script>
 
 </body>
