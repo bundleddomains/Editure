@@ -5,11 +5,16 @@ function renderLayers(layers, layerTransforms){
 
   const xRot = layerTransforms[1].x || 0;
   const yRot = layerTransforms[1].y || 0;
-  const thickness = layerTransforms[1].z || 0; // slider
 
-  // determine number of stacked copies based on slider
-  const stackCount = Math.max(1, Math.round(Math.abs(thickness) / 5));
-  const stackSpacing = thickness >= 0 ? 2 : -2; // positive or negative offset
+  const thickness = layerTransforms[1].z || 0;   // Y stack
+  const thickness2 = layerTransforms[1].z2 || 0; // X stack (NEW)
+
+  // stack counts
+  const stackCountY = Math.max(1, Math.round(Math.abs(thickness) / 5));
+  const stackCountX = Math.max(1, Math.round(Math.abs(thickness2) / 5));
+
+  const spacingY = thickness >= 0 ? 2 : -2;
+  const spacingX = thickness2 >= 0 ? 2 : -2;
 
   let html = `
   <body style="
@@ -36,19 +41,28 @@ function renderLayers(layers, layerTransforms){
     if(layers[i] && layers[i].trim() !== ""){
       const content = layers[i];
 
-      // stack copies vertically for pseudo-thickness
-      for(let s = 0; s < stackCount; s++){
-        const yOffset = s * stackSpacing;
-        html += `
-        <div style="
-          position:absolute;
-          top:50%;
-          left:50%;
-          transform: translate(-50%, calc(-50% + ${yOffset}px));
-        ">
-          ${content}
-        </div>
-        `;
+      // 🔥 dual-axis stacking (Y + X)
+      for(let y = 0; y < stackCountY; y++){
+        for(let x = 0; x < stackCountX; x++){
+
+          const yOffset = y * spacingY;
+          const xOffset = x * spacingX;
+
+          html += `
+          <div style="
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:
+              translate(
+                calc(-50% + ${xOffset}px),
+                calc(-50% + ${yOffset}px)
+              );
+          ">
+            ${content}
+          </div>
+          `;
+        }
       }
     }
   }
