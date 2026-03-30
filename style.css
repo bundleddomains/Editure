@@ -1,3 +1,4 @@
+
 :root{
 --lab-bg:#0e1116;
 }
@@ -47,10 +48,10 @@ filter:brightness(1.05);
 
 /* === COLOR SYSTEM === */
 
-/* Paste (refined brown, grounded) */
+/* Paste (brown, matched glow system) */
 #paste{
 background:#4a3a2f;
-box-shadow:0 0 10px rgba(120,90,60,0.35);
+box-shadow:0 0 10px rgba(120,90,60,0.6);
 }
 
 /* Run */
