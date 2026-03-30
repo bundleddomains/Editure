@@ -7,7 +7,9 @@ const viewer = document.getElementById("viewer")
 const toggleCodeBtn = document.getElementById("toggleCode")
 const wrap = document.getElementById("wrap")
 const bgBtn = document.getElementById("bg")
-const thick = document.getElementById("thick") // ✅ NEW
+
+const thick = document.getElementById("thick")
+const thick2 = document.getElementById("thick2") // ✅ NEW
 
 let currentLayer = 1
 let layers = {}
@@ -15,7 +17,7 @@ let layerTransforms = {}
 
 for(let i=1;i<=8;i++){
   layers[i] = ""
-  layerTransforms[i] = {x:0,y:0,z:0,bg:true} // ✅ z added
+  layerTransforms[i] = {x:0,y:0,z:0,z2:0,bg:true} // ✅ z2 added
 }
 
 const layerWrap = document.getElementById("layers")
@@ -45,7 +47,8 @@ function selectLayer(n){
   codeEl.value=layers[n]||""
   rotX.value=layerTransforms[n].x
   rotY.value=layerTransforms[n].y
-  thick.value=layerTransforms[n].z || 0 // ✅ sync slider
+  thick.value=layerTransforms[n].z || 0
+  thick2.value=layerTransforms[n].z2 || 0 // ✅ sync
 
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
@@ -108,16 +111,20 @@ function updateRotation(){
   }
 }
 
-function updateThickness(){ // ✅ NEW
+function updateThickness(){
   if(currentLayer){
-    layerTransforms[currentLayer].z = parseFloat(thick.value) || 0
+    const t = layerTransforms[currentLayer]
+    t.z = parseFloat(thick.value) || 0
+    t.z2 = parseFloat(thick2.value) || 0
     renderLayers(layers, layerTransforms)
   }
 }
 
 rotX.oninput = updateRotation
 rotY.oninput = updateRotation
-thick.oninput = updateThickness // ✅ connected
+
+thick.oninput = updateThickness
+thick2.oninput = updateThickness // ✅ connected
 
 orbit.oninput=()=>{
   viewer.style.transform=`rotateY(${orbit.value}deg)`
