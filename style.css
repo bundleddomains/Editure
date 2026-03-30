@@ -27,7 +27,7 @@ gap:10px;
 flex-wrap:wrap;
 }
 
-/* BASE BUTTON (structure only) */
+/* BASE BUTTON */
 button{
 color:#fff;
 border:none;
@@ -37,55 +37,53 @@ border-radius:8px;
 transition:transform 0.08s ease, box-shadow 0.2s ease, filter 0.15s ease;
 }
 
-/* press feel */
 button:active{
 transform:scale(0.96);
 }
 
-/* subtle hover */
 button:hover{
 filter:brightness(1.05);
 }
 
 /* === COLOR SYSTEM === */
 
-/* Paste (earth neutral) */
+/* Paste (light neutral, matching glow system) */
 #paste{
-background:#3a2f25;
-box-shadow:0 0 10px rgba(90,70,50,0.4);
+background:#6a6f78;
+box-shadow:0 0 10px rgba(255,255,255,0.25);
 }
 
-/* Run (green) */
+/* Run */
 #run{
 background:#4caf50;
 box-shadow:0 0 10px rgba(76,175,80,0.6);
 }
 
-/* Clear (red) */
+/* Clear */
 #clear{
 background:#f44336;
 box-shadow:0 0 10px rgba(244,67,54,0.6);
 }
 
-/* Stop (purple) */
+/* Stop */
 #stop{
 background:#9c27b0;
 box-shadow:0 0 10px rgba(156,39,176,0.6);
 }
 
-/* Code (blue) */
+/* Code */
 #toggleCode{
 background:#2196f3;
 box-shadow:0 0 10px rgba(33,150,243,0.6);
 }
 
-/* BG (orange) */
+/* BG */
 #bg{
 background:#ff9800;
 box-shadow:0 0 10px rgba(255,152,0,0.6);
 }
 
-/* === LAYER BUTTONS === */
+/* === LAYERS === */
 .layer{
 background:#555;
 color:#fff;
