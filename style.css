@@ -47,10 +47,10 @@ filter:brightness(1.05);
 
 /* === COLOR SYSTEM === */
 
-/* Paste (light neutral, matching glow system) */
+/* Paste (refined brown, grounded) */
 #paste{
-background:#6a6f78;
-box-shadow:0 0 10px rgba(255,255,255,0.25);
+background:#4a3a2f;
+box-shadow:0 0 10px rgba(120,90,60,0.35);
 }
 
 /* Run */
