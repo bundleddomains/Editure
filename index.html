@@ -6,6 +6,29 @@
 <title>Editure Lab v2</title>
 
 <link rel="stylesheet" href="style.css">
+
+<style>
+/* thickness row fix */
+.thick-row {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.thick-row input {
+  flex: 1;
+}
+
+.thick-label {
+  position: absolute;
+  left: 8px;
+  top: -14px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+</style>
+
 </head>
 
 <body>
@@ -34,13 +57,12 @@
 </label>
 </div>
 
-<!-- COMBINED THICKNESS -->
-<div class="row">
-<label style="width:120px">Thick</label>
+<!-- FIXED THICKNESS -->
+<div class="row thick-row">
+<span class="thick-label">Thick</span>
 
-<input type="range" id="thick" min="-500" max="500" value="0" style="flex:1">
-
-<input type="range" id="thick2" min="-500" max="500" value="0" style="flex:1">
+<input type="range" id="thick" min="-500" max="500" value="0">
+<input type="range" id="thick2" min="-500" max="500" value="0">
 </div>
 
 </div>
