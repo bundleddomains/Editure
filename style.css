@@ -47,12 +47,10 @@ filter:brightness(1.05);
 
 /* === COLOR SYSTEM === */
 
-/* Paste (cookie brown, slightly darker + warm glow) */
+/* Paste (cookie brown, matched glow system) */
 #paste{
-background:#634536; /* slightly darker than #664738 */
-box-shadow:
-  0 0 10px rgba(255,140,60,0.6),
-  0 0 18px rgba(255,140,60,0.3);
+background:#634536;
+box-shadow:0 0 10px rgba(150,100,60,0.6);
 }
 
 /* Run */
