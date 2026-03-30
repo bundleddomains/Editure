@@ -49,9 +49,10 @@ filter:brightness(1.05);
 
 /* Paste (richer brown, balanced energy) */
 #paste{
-background:#6a4b3a;
+background:#664738;
 box-shadow:0 0 10px rgba(120,90,60,0.6);
 }
+
 
 /* Run */
 #run{
