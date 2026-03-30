@@ -49,10 +49,12 @@ filter:brightness(1.05);
 
 /* === COLOR SYSTEM (EXTRACTED) === */
 
-/* Paste (neutral) */
+/* Paste (dark neutral) */
 #paste{
-background:#555;
-box-shadow:0 0 10px rgba(255,255,255,0.08);
+background:#1a1d24;
+box-shadow:
+  0 0 8px rgba(255,255,255,0.2),
+  0 0 16px rgba(255,255,255,0.1);
 }
 
 /* Run (green) */
@@ -92,7 +94,7 @@ color:#fff;
 border-radius:8px;
 }
 
-/* ACTIVE LAYER (THIS was missing before) */
+/* ACTIVE LAYER */
 .layer.active{
 background:yellow;
 color:#000;
