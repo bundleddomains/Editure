@@ -47,14 +47,12 @@ button:hover{
 filter:brightness(1.05);
 }
 
-/* === COLOR SYSTEM (EXTRACTED) === */
+/* === COLOR SYSTEM === */
 
-/* Paste (dark neutral) */
+/* Paste (earth neutral) */
 #paste{
-background:#1a1d24;
-box-shadow:
-  0 0 8px rgba(255,255,255,0.2),
-  0 0 16px rgba(255,255,255,0.1);
+background:#3a2f25;
+box-shadow:0 0 10px rgba(90,70,50,0.4);
 }
 
 /* Run (green) */
@@ -69,19 +67,19 @@ background:#f44336;
 box-shadow:0 0 10px rgba(244,67,54,0.6);
 }
 
-/* Stop (purple = strong action) */
+/* Stop (purple) */
 #stop{
 background:#9c27b0;
 box-shadow:0 0 10px rgba(156,39,176,0.6);
 }
 
-/* Code (blue = utility) */
+/* Code (blue) */
 #toggleCode{
 background:#2196f3;
 box-shadow:0 0 10px rgba(33,150,243,0.6);
 }
 
-/* BG (orange = accent) */
+/* BG (orange) */
 #bg{
 background:#ff9800;
 box-shadow:0 0 10px rgba(255,152,0,0.6);
@@ -94,7 +92,6 @@ color:#fff;
 border-radius:8px;
 }
 
-/* ACTIVE LAYER */
 .layer.active{
 background:yellow;
 color:#000;
