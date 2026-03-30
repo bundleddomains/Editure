@@ -47,9 +47,8 @@ filter:brightness(1.05);
 
 /* === COLOR SYSTEM === */
 
-/* Paste (cookie brown, matched glow system) */
 #paste{
-background:#634536;
+background:#3f2a21;
 box-shadow:0 0 10px rgba(150,100,60,0.6);
 }
 
