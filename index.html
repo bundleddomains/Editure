@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
+
 /* thickness row fix */
 .thick-row {
   position: relative;
@@ -27,6 +28,18 @@
   font-size: 12px;
   opacity: 0.7;
 }
+
+/* code panel info row */
+.code-info {
+  gap: 16px;
+  opacity: 0.6;
+  font-size: 13px;
+}
+
+.code-info span {
+  pointer-events: none;
+}
+
 </style>
 
 </head>
@@ -42,6 +55,31 @@
 <button id="stop">Stop</button>
 <button id="toggleCode">Code</button>
 <button id="bg">BG</button>
+</div>
+
+<!-- CODE OPTIONS PANEL -->
+<div id="codeOptions" style="display:none; flex-direction:column; gap:6px;">
+
+  <!-- info -->
+  <div class="row code-info">
+    <span>Color</span>
+    <span>Shape</span>
+    <span>Size</span>
+  </div>
+
+  <!-- layout -->
+  <div class="row">
+    <button id="full">Full</button>
+    <button id="split">Split</button>
+  </div>
+
+  <!-- actions -->
+  <div class="row">
+    <button id="save">Save</button>
+    <button id="undo">Undo</button>
+    <button id="redo">Redo</button>
+  </div>
+
 </div>
 
 <div class="row" id="layers"></div>
@@ -60,14 +98,13 @@
 <!-- FIXED THICKNESS -->
 <div class="row thick-row">
 <span class="thick-label">Thick</span>
-
 <input type="range" id="thick" min="-500" max="500" value="0">
 <input type="range" id="thick2" min="-500" max="500" value="0">
 </div>
 
 </div>
 
-<textarea id="code" placeholder="paste code here"></textarea>
+<textarea id="code" placeholder="paste code here" style="display:none;"></textarea>
 
 <div id="wrap">
 <div class="scene">
@@ -82,6 +119,22 @@ scrolling="no"></iframe>
 </div>
 
 <script src="renderer.js"></script>
+
+<script>
+const toggleCode = document.getElementById("toggleCode");
+const codeOptions = document.getElementById("codeOptions");
+const codeArea = document.getElementById("code");
+
+let codeOpen = false;
+
+toggleCode.onclick = () => {
+  codeOpen = !codeOpen;
+
+  codeArea.style.display = codeOpen ? "block" : "none";
+  codeOptions.style.display = codeOpen ? "flex" : "none";
+};
+</script>
+
 <script src="app.js"></script>
 
 </body>
