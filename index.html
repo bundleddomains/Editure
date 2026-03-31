@@ -7,6 +7,11 @@
 
 <link rel="stylesheet" href="style.css">
 
+<!-- AUTO NO CACHE -->
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
 <style>
 
 /* thickness row fix */
@@ -54,6 +59,13 @@
 }
 
 </style>
+
+<!-- FORCE RELOAD (Safari fix) -->
+<script>
+if (!window.location.search.includes("r=")) {
+  window.location.replace(window.location.pathname + "?r=" + Date.now());
+}
+</script>
 
 </head>
 
@@ -140,13 +152,7 @@ toggleCode.onclick = () => {
   codeOpen = !codeOpen;
 
   codeArea.style.display = codeOpen ? "block" : "none";
-
-  // FORCE show
-  if (codeOpen) {
-    codeOptions.style.display = "flex";
-  } else {
-    codeOptions.style.display = "none";
-  }
+  codeOptions.style.display = codeOpen ? "flex" : "none";
 };
 </script>
 
