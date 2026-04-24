@@ -7,14 +7,11 @@
 
 <link rel="stylesheet" href="style.css">
 
-<!-- AUTO NO CACHE -->
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 
 <style>
-
-/* thickness row fix */
 .thick-row {
   position: relative;
   display: flex;
@@ -34,33 +31,22 @@
   opacity: 0.7;
 }
 
-/* code panel */
 #codeOptions {
   width: 100%;
   display: none;
-  flex-direction: column;
-  gap: 6px;
+  height: 400px;
+  margin-top: 8px;
 }
 
-/* FORCE rows visible */
-#codeOptions .row {
-  display: flex !important;
+#toolFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+  background: #000;
 }
-
-/* info row */
-.code-info {
-  gap: 16px;
-  opacity: 0.6;
-  font-size: 13px;
-}
-
-.code-info span {
-  pointer-events: none;
-}
-
 </style>
 
-<!-- FORCE RELOAD (Safari fix) -->
 <script>
 if (!window.location.search.includes("r=")) {
   window.location.replace(window.location.pathname + "?r=" + Date.now());
@@ -73,70 +59,57 @@ if (!window.location.search.includes("r=")) {
 
 <div id="bar">
 
-<div class="row">
-<button id="paste">Paste</button>
-<button id="run">Run</button>
-<button id="clear">Clear</button>
-<button id="stop">Stop</button>
-<button id="toggleCode">Code</button>
-<button id="bg">BG</button>
-</div>
+  <div class="row">
+    <button id="paste">Paste</button>
+    <button id="run">Run</button>
+    <button id="clear">Clear</button>
+    <button id="stop">Stop</button>
+    <button id="toggleCode">Code</button>
+    <button id="bg">BG</button>
+  </div>
 
-<!-- CODE OPTIONS PANEL -->
-<div id="codeOptions">
+  <!-- CODE TOOL PANEL -->
+  <div id="codeOptions">
+    <iframe
+      id="toolFrame"
+      src="htmlo/index.html"
+      title="HTMLO Tool">
+    </iframe>
+  </div>
 
-  <div class="row code-info">
-    <span>Color</span>
-    <span>Shape</span>
-    <span>Size</span>
+  <div class="row" id="layers"></div>
+
+  <div class="row">
+    <label>X <input type="range" id="rotX" min="-60" max="60" value="0"></label>
+    <label>Y <input type="range" id="rotY" min="-180" max="180" value="0"></label>
   </div>
 
   <div class="row">
-    <button>Full</button>
-    <button>Split</button>
+    <label style="width:100%">Camera Orbit
+      <input type="range" id="orbit" min="-180" max="180" value="0">
+    </label>
   </div>
 
-  <div class="row">
-    <button>Save</button>
-    <button>Undo</button>
-    <button>Redo</button>
+  <div class="row thick-row">
+    <span class="thick-label">Thick</span>
+    <input type="range" id="thick" min="-500" max="500" value="0">
+    <input type="range" id="thick2" min="-500" max="500" value="0">
   </div>
 
 </div>
-
-<div class="row" id="layers"></div>
-
-<div class="row">
-<label>X <input type="range" id="rotX" min="-60" max="60" value="0"></label>
-<label>Y <input type="range" id="rotY" min="-180" max="180" value="0"></label>
-</div>
-
-<div class="row">
-<label style="width:100%">Camera Orbit
-<input type="range" id="orbit" min="-180" max="180" value="0">
-</label>
-</div>
-
-<div class="row thick-row">
-<span class="thick-label">Thick</span>
-<input type="range" id="thick" min="-500" max="500" value="0">
-<input type="range" id="thick2" min="-500" max="500" value="0">
-</div>
-
-</div>
-
-<textarea id="code" placeholder="paste code here" style="display:none;"></textarea>
 
 <div id="wrap">
-<div class="scene">
-<div class="viewer" id="viewer">
-<div class="panel" id="panel">
-<iframe id="pv"
-sandbox="allow-scripts allow-same-origin"
-scrolling="no"></iframe>
-</div>
-</div>
-</div>
+  <div class="scene">
+    <div class="viewer" id="viewer">
+      <div class="panel" id="panel">
+        <iframe
+          id="pv"
+          sandbox="allow-scripts allow-same-origin"
+          scrolling="no">
+        </iframe>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="renderer.js"></script>
@@ -144,15 +117,12 @@ scrolling="no"></iframe>
 <script>
 const toggleCode = document.getElementById("toggleCode");
 const codeOptions = document.getElementById("codeOptions");
-const codeArea = document.getElementById("code");
 
 let codeOpen = false;
 
 toggleCode.onclick = () => {
   codeOpen = !codeOpen;
-
-  codeArea.style.display = codeOpen ? "block" : "none";
-  codeOptions.style.display = codeOpen ? "flex" : "none";
+  codeOptions.style.display = codeOpen ? "block" : "none";
 };
 </script>
 
