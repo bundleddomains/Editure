@@ -103,7 +103,6 @@ if (!window.location.search.includes("r=")) {
 
 </div>
 
-<!-- KEEP THIS. app.js probably needs it. -->
 <textarea id="code" placeholder="paste code here" style="display:none;"></textarea>
 
 <div id="wrap">
@@ -121,29 +120,6 @@ if (!window.location.search.includes("r=")) {
 </div>
 
 <script src="renderer.js"></script>
-
-<script>
-(() => {
-  const toggleCodeBtn = document.getElementById("toggleCode");
-  const codeOptionsPanel = document.getElementById("codeOptions");
-  const layoutBtn = document.getElementById("toggleLayout");
-  const previewPanel = document.getElementById("panel");
-
-  let codeOpen = false;
-  let horizontal = false;
-
-  toggleCodeBtn.onclick = () => {
-    codeOpen = !codeOpen;
-    codeOptionsPanel.style.display = codeOpen ? "block" : "none";
-  };
-
-  layoutBtn.onclick = () => {
-    horizontal = !horizontal;
-    previewPanel.classList.toggle("horizontal", horizontal);
-  };
-})();
-</script>
-
 <script src="app.js"></script>
 
 </body>
