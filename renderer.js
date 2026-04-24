@@ -6,10 +6,9 @@ function renderLayers(layers, layerTransforms){
   const xRot = layerTransforms[1].x || 0;
   const yRot = layerTransforms[1].y || 0;
 
-  const thickness = layerTransforms[1].z || 0;   // Y stack
-  const thickness2 = layerTransforms[1].z2 || 0; // X stack (NEW)
+  const thickness = layerTransforms[1].z || 0;
+  const thickness2 = layerTransforms[1].z2 || 0;
 
-  // stack counts
   const stackCountY = Math.max(1, Math.round(Math.abs(thickness) / 5));
   const stackCountX = Math.max(1, Math.round(Math.abs(thickness2) / 5));
 
@@ -40,8 +39,11 @@ function renderLayers(layers, layerTransforms){
   for(let i=1;i<=8;i++){
     if(layers[i] && layers[i].trim() !== ""){
       const content = layers[i];
+      const t = layerTransforms[i] || {};
 
-      // 🔥 dual-axis stacking (Y + X)
+      const artW = t.w ? `${t.w}px` : "auto";
+      const artH = t.h ? `${t.h}px` : "auto";
+
       for(let y = 0; y < stackCountY; y++){
         for(let x = 0; x < stackCountX; x++){
 
@@ -53,6 +55,8 @@ function renderLayers(layers, layerTransforms){
             position:absolute;
             top:50%;
             left:50%;
+            width:${artW};
+            height:${artH};
             transform:
               translate(
                 calc(-50% + ${xOffset}px),
