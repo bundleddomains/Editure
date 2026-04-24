@@ -46,7 +46,6 @@
   background: #000;
 }
 
-/* horizontal preview mode */
 .panel.horizontal {
   width: 700px;
   height: 350px;
@@ -75,7 +74,6 @@ if (!window.location.search.includes("r=")) {
     <button id="toggleLayout">Horizontal</button>
   </div>
 
-  <!-- CODE TOOL PANEL -->
   <div id="codeOptions">
     <iframe
       id="toolFrame"
@@ -105,6 +103,9 @@ if (!window.location.search.includes("r=")) {
 
 </div>
 
+<!-- KEEP THIS. app.js probably needs it. -->
+<textarea id="code" placeholder="paste code here" style="display:none;"></textarea>
+
 <div id="wrap">
   <div class="scene">
     <div class="viewer" id="viewer">
@@ -122,25 +123,25 @@ if (!window.location.search.includes("r=")) {
 <script src="renderer.js"></script>
 
 <script>
-const toggleCode = document.getElementById("toggleCode");
-const codeOptions = document.getElementById("codeOptions");
+(() => {
+  const toggleCodeBtn = document.getElementById("toggleCode");
+  const codeOptionsPanel = document.getElementById("codeOptions");
+  const layoutBtn = document.getElementById("toggleLayout");
+  const previewPanel = document.getElementById("panel");
 
-let codeOpen = false;
+  let codeOpen = false;
+  let horizontal = false;
 
-toggleCode.onclick = () => {
-  codeOpen = !codeOpen;
-  codeOptions.style.display = codeOpen ? "block" : "none";
-};
+  toggleCodeBtn.onclick = () => {
+    codeOpen = !codeOpen;
+    codeOptionsPanel.style.display = codeOpen ? "block" : "none";
+  };
 
-const toggleLayout = document.getElementById("toggleLayout");
-const panel = document.getElementById("panel");
-
-let horizontal = false;
-
-toggleLayout.onclick = () => {
-  horizontal = !horizontal;
-  panel.classList.toggle("horizontal", horizontal);
-};
+  layoutBtn.onclick = () => {
+    horizontal = !horizontal;
+    previewPanel.classList.toggle("horizontal", horizontal);
+  };
+})();
 </script>
 
 <script src="app.js"></script>
