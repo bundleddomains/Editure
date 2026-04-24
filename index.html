@@ -70,7 +70,7 @@
   outline: none;
 }
 
-/* width slider (bottom) */
+/* width slider bottom */
 .size-slider.horizontal {
   width: 180px;
   height: 8px;
@@ -79,13 +79,14 @@
   transform: translateX(-50%);
 }
 
-/* height slider (left vertical) */
+/* height slider left - rotated horizontal slider for mobile support */
 .size-slider.vertical {
-  width: 8px;
-  height: 180px;
-  left: -50px;
+  width: 180px;
+  height: 8px;
+  left: -95px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: center;
 }
 
 /* slider thumb */
