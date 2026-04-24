@@ -51,41 +51,51 @@
   height: 350px;
 }
 
-/* WIDTH / HEIGHT CONTROLS */
-.size-row {
-  display: flex;
-  gap: 14px;
-  align-items: center;
+/* WIDTH / HEIGHT OUTSIDE PREVIEW */
+.preview-size-controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
 }
 
-.size-control {
+.preview-size-controls label {
+  position: absolute;
   color: #000;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 18px;
+  pointer-events: auto;
 }
 
-.size-control input {
+.preview-size-controls input {
   background: #000;
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 6px 8px;
-  width: 70px;
   outline: none;
+  border-radius: 8px;
+  width: 70px;
+  padding: 6px 8px;
   font-family: monospace;
 }
 
-.width-control {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.height-control {
+/* H outside left of preview */
+.height-size {
+  left: -54px;
+  top: 48%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
+}
+
+/* W outside bottom of preview */
+.width-size {
+  bottom: -58px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 </style>
 
@@ -138,18 +148,6 @@ if (!window.location.search.includes("r=")) {
     <input type="range" id="thick2" min="-500" max="500" value="0">
   </div>
 
-  <div class="row size-row">
-    <label class="size-control width-control">
-      W
-      <input id="artW" type="number" placeholder="0">
-    </label>
-
-    <label class="size-control height-control">
-      H
-      <input id="artH" type="number" placeholder="0">
-    </label>
-  </div>
-
 </div>
 
 <textarea id="code" placeholder="paste code here" style="display:none;"></textarea>
@@ -157,6 +155,18 @@ if (!window.location.search.includes("r=")) {
 <div id="wrap">
   <div class="scene">
     <div class="viewer" id="viewer">
+
+      <div class="preview-size-controls">
+        <label class="height-size">
+          H
+          <input id="artH" type="number" placeholder="0">
+        </label>
+
+        <label class="width-size">
+          W
+          <input id="artW" type="number" placeholder="0">
+        </label>
+      </div>
 
       <div class="panel" id="panel">
         <iframe
