@@ -44,13 +44,13 @@
   border: none;
   border-radius: 12px;
   background: #000;
+}
 
-  /* horizontal preview mode */
+/* horizontal preview mode */
 .panel.horizontal {
   width: 700px;
   height: 350px;
 }
-
 </style>
 
 <script>
@@ -130,6 +130,16 @@ let codeOpen = false;
 toggleCode.onclick = () => {
   codeOpen = !codeOpen;
   codeOptions.style.display = codeOpen ? "block" : "none";
+};
+
+const toggleLayout = document.getElementById("toggleLayout");
+const panel = document.getElementById("panel");
+
+let horizontal = false;
+
+toggleLayout.onclick = () => {
+  horizontal = !horizontal;
+  panel.classList.toggle("horizontal", horizontal);
 };
 </script>
 
