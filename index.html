@@ -51,44 +51,41 @@
   height: 350px;
 }
 
-/* WIDTH / HEIGHT OVERLAY */
-#overlayUI {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 10;
+/* WIDTH / HEIGHT CONTROLS */
+.size-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
 }
 
-#overlayUI input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: rgba(255,255,255,0.25);
+.size-control {
+  color: #000;
+  font-weight: bold;
   font-size: 14px;
+}
+
+.size-control input {
+  background: #000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  width: 70px;
+  outline: none;
   font-family: monospace;
-  text-align: center;
-  pointer-events: auto;
-  width: 54px;
 }
 
-/* HEIGHT - left side */
-.axis-h-wrap {
-  position: absolute;
-  left: 6px;
-  top: 50%;
-  transform: translateY(-50%);
+.width-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-#artH {
-  writing-mode: vertical-rl;
-}
-
-/* WIDTH - bottom */
-.axis-w-wrap {
-  position: absolute;
-  bottom: 6px;
-  left: 50%;
-  transform: translateX(-50%);
+.height-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 </style>
 
@@ -141,6 +138,18 @@ if (!window.location.search.includes("r=")) {
     <input type="range" id="thick2" min="-500" max="500" value="0">
   </div>
 
+  <div class="row size-row">
+    <label class="size-control width-control">
+      W
+      <input id="artW" type="number" placeholder="0">
+    </label>
+
+    <label class="size-control height-control">
+      H
+      <input id="artH" type="number" placeholder="0">
+    </label>
+  </div>
+
 </div>
 
 <textarea id="code" placeholder="paste code here" style="display:none;"></textarea>
@@ -148,16 +157,6 @@ if (!window.location.search.includes("r=")) {
 <div id="wrap">
   <div class="scene">
     <div class="viewer" id="viewer">
-
-      <div id="overlayUI">
-        <div class="axis-h-wrap">
-          <input id="artH" type="number" placeholder="h">
-        </div>
-
-        <div class="axis-w-wrap">
-          <input id="artW" type="number" placeholder="w">
-        </div>
-      </div>
 
       <div class="panel" id="panel">
         <iframe
