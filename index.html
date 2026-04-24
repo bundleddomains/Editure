@@ -59,60 +59,52 @@
   z-index: 20;
 }
 
+/* base slider */
 .size-slider {
   position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #000;
-  font-weight: bold;
-  font-size: 18px;
   pointer-events: auto;
-}
-
-.size-slider input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  width: 160px;
-  height: 8px;
   background: #111;
   border-radius: 999px;
   outline: none;
 }
 
-/* slider thumb */
-.size-slider input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 42px;
-  height: 26px;
-  border-radius: 9px;
-  background: #000;
-  border: none;
-  cursor: pointer;
-}
-
-/* Firefox thumb */
-.size-slider input[type="range"]::-moz-range-thumb {
-  width: 42px;
-  height: 26px;
-  border-radius: 9px;
-  background: #000;
-  border: none;
-  cursor: pointer;
-}
-
-/* H left outside preview */
-.height-size {
-  left: -120px;
-  top: 48%;
-}
-
-/* W bottom outside preview */
-.width-size {
-  bottom: -58px;
+/* width slider (bottom) */
+.size-slider.horizontal {
+  width: 180px;
+  height: 8px;
+  bottom: -50px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+/* height slider (left vertical) */
+.size-slider.vertical {
+  width: 8px;
+  height: 180px;
+  left: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* slider thumb */
+.size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 20px;
+  background: #000;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.size-slider::-moz-range-thumb {
+  width: 28px;
+  height: 20px;
+  background: #000;
+  border-radius: 6px;
+  cursor: pointer;
 }
 </style>
 
@@ -174,15 +166,8 @@ if (!window.location.search.includes("r=")) {
     <div class="viewer" id="viewer">
 
       <div class="preview-size-controls">
-        <label class="size-slider height-size">
-          H
-          <input id="artH" type="range" min="0" max="700" value="0">
-        </label>
-
-        <label class="size-slider width-size">
-          W
-          <input id="artW" type="range" min="0" max="700" value="0">
-        </label>
+        <input id="artH" class="size-slider vertical" type="range" min="0" max="700" value="0">
+        <input id="artW" class="size-slider horizontal" type="range" min="0" max="700" value="0">
       </div>
 
       <div class="panel" id="panel">
