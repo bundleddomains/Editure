@@ -13,6 +13,10 @@ const toggleLayout = document.getElementById("toggleLayout")
 const thick = document.getElementById("thick")
 const thick2 = document.getElementById("thick2")
 
+/* WIDTH / HEIGHT OVERLAY INPUTS */
+const artW = document.getElementById("artW")
+const artH = document.getElementById("artH")
+
 let currentLayer = 1
 let layers = {}
 let layerTransforms = {}
@@ -20,7 +24,15 @@ let horizontal = false
 
 for(let i=1;i<=8;i++){
   layers[i] = ""
-  layerTransforms[i] = {x:0,y:0,z:0,z2:0,bg:true}
+  layerTransforms[i] = {
+    x:0,
+    y:0,
+    z:0,
+    z2:0,
+    bg:true,
+    w:"",
+    h:""
+  }
 }
 
 const layerWrap = document.getElementById("layers")
@@ -39,6 +51,10 @@ function selectLayer(n){
     currentLayer=null
     document.querySelectorAll(".layer").forEach(b=>b.classList.remove("active"))
     codeEl.value=""
+
+    artW.value=""
+    artH.value=""
+
     return
   }
 
@@ -52,6 +68,9 @@ function selectLayer(n){
   rotY.value=layerTransforms[n].y
   thick.value=layerTransforms[n].z || 0
   thick2.value=layerTransforms[n].z2 || 0
+
+  artW.value = layerTransforms[n].w || ""
+  artH.value = layerTransforms[n].h || ""
 
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
@@ -126,11 +145,24 @@ function updateThickness(){
   }
 }
 
+/* WIDTH / HEIGHT LIVE UPDATE */
+function updateArtSize(){
+  if(!currentLayer) return
+
+  layerTransforms[currentLayer].w = artW.value
+  layerTransforms[currentLayer].h = artH.value
+
+  renderLayers(layers, layerTransforms)
+}
+
 rotX.oninput = updateRotation
 rotY.oninput = updateRotation
 
 thick.oninput = updateThickness
 thick2.oninput = updateThickness
+
+artW.oninput = updateArtSize
+artH.oninput = updateArtSize
 
 orbit.oninput=()=>{
   viewer.style.transform=`rotateY(${orbit.value}deg)`
