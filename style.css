@@ -82,6 +82,22 @@ background:#ff9800;
 box-shadow:0 0 10px rgba(255,152,0,0.6);
 }
 
+/* Horizontal */
+#toggleLayout{
+background:#607d8b;
+box-shadow:0 0 10px rgba(96,125,139,0.6);
+}
+
+/* Save */
+#saveArt{
+background:#00a676;
+box-shadow:0 0 10px rgba(0,166,118,0.65);
+}
+
+#saveArt:active{
+box-shadow:0 0 18px rgba(0,255,180,0.9);
+}
+
 /* === LAYERS === */
 .layer{
 background:#555;
