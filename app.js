@@ -214,21 +214,77 @@ toggleLayout.onclick=()=>{
   toggleLayout.classList.toggle("active", horizontal)
 }
 
-/* SAVE CURRENT ADJUSTED ART AS HTML */
+/* SAVE CURRENT ADJUSTED ART AS HTML + SHOW CODE LIGHTBOX */
 saveArt.onclick = () => {
   const fullHTML = buildExportHTML(layers, layerTransforms)
 
-  const blob = new Blob([fullHTML], { type: "text/html" })
-  const url = URL.createObjectURL(blob)
+  const overlay = document.createElement("div")
+  overlay.style.position = "fixed"
+  overlay.style.inset = "0"
+  overlay.style.background = "rgba(0,0,0,0.88)"
+  overlay.style.zIndex = "9999"
+  overlay.style.display = "flex"
+  overlay.style.flexDirection = "column"
+  overlay.style.padding = "16px"
+  overlay.style.boxSizing = "border-box"
 
-  const a = document.createElement("a")
-  a.href = url
-  a.download = "saved-art.html"
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
+  const topBar = document.createElement("div")
+  topBar.style.display = "flex"
+  topBar.style.gap = "10px"
+  topBar.style.marginBottom = "10px"
 
-  URL.revokeObjectURL(url)
+  const closeBtn = document.createElement("button")
+  closeBtn.textContent = "Close"
+
+  const copyBtn = document.createElement("button")
+  copyBtn.textContent = "Copy"
+
+  const downloadBtn = document.createElement("button")
+  downloadBtn.textContent = "Download"
+
+  const box = document.createElement("textarea")
+  box.value = fullHTML
+  box.style.flex = "1"
+  box.style.width = "100%"
+  box.style.background = "#07110d"
+  box.style.color = "#d8ffe9"
+  box.style.border = "1px solid #00a676"
+  box.style.borderRadius = "10px"
+  box.style.padding = "14px"
+  box.style.fontFamily = "monospace"
+  box.style.fontSize = "12px"
+  box.style.resize = "none"
+  box.style.outline = "none"
+
+  closeBtn.onclick = () => overlay.remove()
+
+  copyBtn.onclick = async () => {
+    await navigator.clipboard.writeText(fullHTML)
+    copyBtn.textContent = "Copied"
+  }
+
+  downloadBtn.onclick = () => {
+    const blob = new Blob([fullHTML], { type: "text/html" })
+    const url = URL.createObjectURL(blob)
+
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "saved-art.html"
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+
+    URL.revokeObjectURL(url)
+  }
+
+  topBar.appendChild(closeBtn)
+  topBar.appendChild(copyBtn)
+  topBar.appendChild(downloadBtn)
+
+  overlay.appendChild(topBar)
+  overlay.appendChild(box)
+
+  document.body.appendChild(overlay)
 }
 
 document.getElementById("paste").onclick =
