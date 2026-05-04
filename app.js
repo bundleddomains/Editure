@@ -9,6 +9,7 @@ const wrap = document.getElementById("wrap")
 const bgBtn = document.getElementById("bg")
 const codeOptions = document.getElementById("codeOptions")
 const toggleLayout = document.getElementById("toggleLayout")
+const saveArt = document.getElementById("saveArt")
 
 const thick = document.getElementById("thick")
 const thick2 = document.getElementById("thick2")
@@ -211,6 +212,23 @@ toggleLayout.onclick=()=>{
   horizontal = !horizontal
   panel.classList.toggle("horizontal", horizontal)
   toggleLayout.classList.toggle("active", horizontal)
+}
+
+/* SAVE CURRENT ADJUSTED ART AS HTML */
+saveArt.onclick = () => {
+  const fullHTML = buildExportHTML(layers, layerTransforms)
+
+  const blob = new Blob([fullHTML], { type: "text/html" })
+  const url = URL.createObjectURL(blob)
+
+  const a = document.createElement("a")
+  a.href = url
+  a.download = "saved-art.html"
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+
+  URL.revokeObjectURL(url)
 }
 
 document.getElementById("paste").onclick =
