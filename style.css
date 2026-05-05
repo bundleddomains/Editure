@@ -98,14 +98,14 @@ box-shadow:0 0 10px rgba(0,166,118,0.65);
 box-shadow:0 0 18px rgba(0,255,180,0.9);
 }
 
-/* FX */
+/* FX (TEAL – calmer, slightly different from Save) */
 #fxBtn{
-background:#7a2a5a;
-box-shadow:0 0 6px rgba(180,80,140,0.35);
+background:#1f8f82;
+box-shadow:0 0 6px rgba(0,166,118,0.35);
 }
 
 #fxBtn:active{
-box-shadow:0 0 12px rgba(200,120,170,0.5);
+box-shadow:0 0 12px rgba(0,255,180,0.5);
 }
 
 /* === LAYERS === */
