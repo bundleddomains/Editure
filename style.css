@@ -98,6 +98,16 @@ box-shadow:0 0 10px rgba(0,166,118,0.65);
 box-shadow:0 0 18px rgba(0,255,180,0.9);
 }
 
+/* FX */
+#fxBtn{
+background:#ff2ea6;
+box-shadow:0 0 10px rgba(255,46,166,0.6);
+}
+
+#fxBtn:active{
+box-shadow:0 0 18px rgba(255,46,166,0.9);
+}
+
 /* === LAYERS === */
 .layer{
 background:#555;
