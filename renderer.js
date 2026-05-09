@@ -44,6 +44,9 @@ function renderLayers(layers, layerTransforms){
       const artW = t.w ? `${t.w}px` : "auto";
       const artH = t.h ? `${t.h}px` : "auto";
 
+      const moveX = t.tx || 0;
+      const moveY = t.ty || 0;
+
       for(let y = 0; y < stackCountY; y++){
         for(let x = 0; x < stackCountX; x++){
 
@@ -59,8 +62,8 @@ function renderLayers(layers, layerTransforms){
             height:${artH};
             transform:
               translate(
-                calc(-50% + ${xOffset}px),
-                calc(-50% + ${yOffset}px)
+                calc(-50% + ${xOffset + moveX}px),
+                calc(-50% + ${yOffset + moveY}px)
               );
           ">
             ${content}
@@ -140,6 +143,9 @@ body {
       const artW = t.w ? `${t.w}px` : "auto";
       const artH = t.h ? `${t.h}px` : "auto";
 
+      const moveX = t.tx || 0;
+      const moveY = t.ty || 0;
+
       for(let y = 0; y < stackCountY; y++){
         for(let x = 0; x < stackCountX; x++){
 
@@ -153,7 +159,7 @@ body {
     left:50%;
     width:${artW};
     height:${artH};
-    transform:translate(calc(-50% + ${xOffset}px), calc(-50% + ${yOffset}px));
+    transform:translate(calc(-50% + ${xOffset + moveX}px), calc(-50% + ${yOffset + moveY}px));
   ">
 ${content}
   </div>
