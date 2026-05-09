@@ -14,9 +14,12 @@ const saveArt = document.getElementById("saveArt")
 const thick = document.getElementById("thick")
 const thick2 = document.getElementById("thick2")
 
-/* WIDTH / HEIGHT OVERLAY INPUTS */
 const artW = document.getElementById("artW")
 const artH = document.getElementById("artH")
+
+/* POSITION INPUTS */
+const artX = document.getElementById("artX")
+const artY = document.getElementById("artY")
 
 let currentLayer = 1
 let layers = {}
@@ -32,7 +35,9 @@ for(let i=1;i<=8;i++){
     z2:0,
     bg:true,
     w:"",
-    h:""
+    h:"",
+    tx:0,
+    ty:0
   }
 }
 
@@ -55,6 +60,8 @@ function selectLayer(n){
 
     artW.value=""
     artH.value=""
+    artX.value=0
+    artY.value=0
 
     return
   }
@@ -72,6 +79,9 @@ function selectLayer(n){
 
   artW.value = layerTransforms[n].w || ""
   artH.value = layerTransforms[n].h || ""
+
+  artX.value = layerTransforms[n].tx || 0
+  artY.value = layerTransforms[n].ty || 0
 
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
@@ -146,12 +156,20 @@ function updateThickness(){
   }
 }
 
-/* WIDTH / HEIGHT LIVE UPDATE */
 function updateArtSize(){
   if(!currentLayer) return
 
   layerTransforms[currentLayer].w = artW.value
   layerTransforms[currentLayer].h = artH.value
+
+  renderLayers(layers, layerTransforms)
+}
+
+function updateArtPosition(){
+  if(!currentLayer) return
+
+  layerTransforms[currentLayer].tx = parseFloat(artX.value) || 0
+  layerTransforms[currentLayer].ty = parseFloat(artY.value) || 0
 
   renderLayers(layers, layerTransforms)
 }
@@ -164,6 +182,9 @@ thick2.oninput = updateThickness
 
 artW.oninput = updateArtSize
 artH.oninput = updateArtSize
+
+artX.oninput = updateArtPosition
+artY.oninput = updateArtPosition
 
 orbit.oninput=()=>{
   viewer.style.transform=`rotateY(${orbit.value}deg)`
@@ -194,7 +215,6 @@ function formatCode(str){
   }).join("\n")
 }
 
-/* CODE BUTTON NOW OPENS HTMLO TOOL PANEL */
 toggleCodeBtn.onclick=()=>{
   if(codeOptions.style.display==="block"){
     codeOptions.style.display="none"
@@ -207,14 +227,12 @@ toggleCodeBtn.onclick=()=>{
   }
 }
 
-/* HORIZONTAL PREVIEW TOGGLE */
 toggleLayout.onclick=()=>{
   horizontal = !horizontal
   panel.classList.toggle("horizontal", horizontal)
   toggleLayout.classList.toggle("active", horizontal)
 }
 
-/* SAVE CURRENT ADJUSTED ART AS HTML + SHOW CODE LIGHTBOX */
 saveArt.onclick = () => {
   const fullHTML = buildExportHTML(layers, layerTransforms)
 
