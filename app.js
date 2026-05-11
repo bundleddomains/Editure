@@ -235,8 +235,63 @@ function formatCode(str){
   }).join("\n")
 }
 
-/* 🔥 CODE BUTTON NOW DOES NOTHING */
-toggleCodeBtn.onclick = () => {}
+/* =========================
+   🔥 CODE BUTTON = LIGHTBOX
+   ========================= */
+toggleCodeBtn.onclick = () => {
+
+  const overlay = document.createElement("div")
+  overlay.style.position = "fixed"
+  overlay.style.inset = "0"
+  overlay.style.background = "rgba(0,0,0,0.88)"
+  overlay.style.zIndex = "99999"
+  overlay.style.display = "flex"
+  overlay.style.flexDirection = "column"
+  overlay.style.padding = "16px"
+  overlay.style.boxSizing = "border-box"
+
+  const topBar = document.createElement("div")
+  topBar.style.display = "flex"
+  topBar.style.gap = "10px"
+  topBar.style.marginBottom = "10px"
+
+  const closeBtn = document.createElement("button")
+  closeBtn.textContent = "Close"
+
+  const copyBtn = document.createElement("button")
+  copyBtn.textContent = "Copy"
+
+  const textarea = document.createElement("textarea")
+  textarea.value = codeEl.value || ""
+  textarea.style.flex = "1"
+  textarea.style.width = "100%"
+  textarea.style.background = "#07110d"
+  textarea.style.color = "#d8ffe9"
+  textarea.style.border = "1px solid #00a676"
+  textarea.style.borderRadius = "10px"
+  textarea.style.padding = "14px"
+  textarea.style.fontFamily = "monospace"
+  textarea.style.fontSize = "12px"
+  textarea.style.resize = "none"
+  textarea.style.outline = "none"
+
+  closeBtn.onclick = () => {
+    overlay.remove()
+  }
+
+  copyBtn.onclick = async () => {
+    await navigator.clipboard.writeText(textarea.value)
+    copyBtn.textContent = "Copied"
+  }
+
+  topBar.appendChild(closeBtn)
+  topBar.appendChild(copyBtn)
+
+  overlay.appendChild(topBar)
+  overlay.appendChild(textarea)
+
+  document.body.appendChild(overlay)
+}
 
 toggleLayout.onclick=()=>{
   horizontal = !horizontal
