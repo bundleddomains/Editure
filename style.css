@@ -307,7 +307,7 @@ transform-origin:center;
 .scale-slider{
 width:220px;
 height:10px;
-bottom:-100px;
+bottom:-66px;
 left:50%;
 transform:translateX(-50%);
 background:var(--slider-scale);
