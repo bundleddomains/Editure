@@ -50,112 +50,6 @@
   width: 700px;
   height: 350px;
 }
-
-/* SIZE + MOVE SLIDERS OUTSIDE PREVIEW */
-.preview-size-controls {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 20;
-}
-
-/* SIZE SLIDERS */
-.size-slider {
-  position: absolute;
-  pointer-events: auto;
-  -webkit-appearance: none;
-  appearance: none;
-  background: #111;
-  border-radius: 999px;
-  outline: none;
-}
-
-/* width slider bottom */
-.size-slider.horizontal {
-  width: 180px;
-  height: 8px;
-  bottom: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* height slider left */
-.size-slider.vertical {
-  width: 180px;
-  height: 8px;
-  left: -95px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center;
-}
-
-/* size slider thumb */
-.size-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 28px;
-  height: 20px;
-  background: #000;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.size-slider::-moz-range-thumb {
-  width: 28px;
-  height: 20px;
-  background: #000;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* MOVE SLIDERS */
-.move-slider {
-  position: absolute;
-  pointer-events: auto;
-  -webkit-appearance: none;
-  appearance: none;
-  background: #243126;
-  border-radius: 999px;
-  outline: none;
-}
-
-/* move X slider lower bottom */
-.move-slider.move-horizontal {
-  width: 180px;
-  height: 8px;
-  bottom: -82px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* move Y slider right side */
-.move-slider.move-vertical {
-  width: 180px;
-  height: 8px;
-  right: -95px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center;
-}
-
-/* move slider thumb */
-.move-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 28px;
-  height: 20px;
-  background: #d8f5c8;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.move-slider::-moz-range-thumb {
-  width: 28px;
-  height: 20px;
-  background: #d8f5c8;
-  border-radius: 6px;
-  cursor: pointer;
-}
 </style>
 
 <script>
@@ -223,6 +117,8 @@ if (!window.location.search.includes("r=")) {
 
         <input id="artY" class="move-slider move-vertical" type="range" min="-350" max="350" value="0">
         <input id="artX" class="move-slider move-horizontal" type="range" min="-350" max="350" value="0">
+
+        <input id="previewScale" class="scale-slider" type="range" min="25" max="200" value="100">
       </div>
 
       <div class="panel" id="panel">
