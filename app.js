@@ -102,6 +102,98 @@ function stripBackgrounds(str){
   return str
 }
 
+/* =========================
+   🌿🧰 CODE BUTTON = MENU SYSTEM
+   ========================= */
+toggleCodeBtn.onclick = () => {
+
+  const overlay = document.createElement("div")
+  overlay.style.position = "fixed"
+  overlay.style.inset = "0"
+  overlay.style.background = "rgba(0,0,0,0.9)"
+  overlay.style.zIndex = "99999"
+  overlay.style.display = "flex"
+  overlay.style.flexDirection = "column"
+  overlay.style.padding = "16px"
+  overlay.style.boxSizing = "border-box"
+
+  const topBar = document.createElement("div")
+  topBar.style.display = "flex"
+  topBar.style.gap = "10px"
+  topBar.style.marginBottom = "10px"
+
+  const closeBtn = document.createElement("button")
+  closeBtn.textContent = "Close"
+
+  const title = document.createElement("div")
+  title.textContent = "Menu"
+  title.style.color = "#d8ffe9"
+  title.style.display = "flex"
+  title.style.alignItems = "center"
+
+  const menuBar = document.createElement("div")
+  menuBar.style.display = "flex"
+  menuBar.style.gap = "10px"
+  menuBar.style.marginBottom = "10px"
+
+  const content = document.createElement("div")
+  content.style.flex = "1"
+  content.style.display = "flex"
+  content.style.flexDirection = "column"
+  content.style.gap = "10px"
+
+  const categories = {
+    nature: ["leaves", "water", "tree", "grass"],
+    tools: ["Editure", "replace&erase", "Queb.site"]
+  }
+
+  function renderCategory(name){
+    content.innerHTML = ""
+
+    categories[name].forEach(item => {
+      const btn = document.createElement("button")
+      btn.textContent = item
+      btn.style.padding = "12px"
+      btn.style.background = "#07110d"
+      btn.style.color = "#d8ffe9"
+      btn.style.border = "1px solid #00a676"
+      btn.style.borderRadius = "8px"
+
+      btn.onclick = () => {
+        // placeholder behavior
+        codeEl.value = `<${item}></${item}>`
+        overlay.remove()
+      }
+
+      content.appendChild(btn)
+    })
+  }
+
+  const natureBtn = document.createElement("button")
+  natureBtn.textContent = "nature"
+  natureBtn.onclick = () => renderCategory("nature")
+
+  const toolsBtn = document.createElement("button")
+  toolsBtn.textContent = "tools"
+  toolsBtn.onclick = () => renderCategory("tools")
+
+  menuBar.appendChild(natureBtn)
+  menuBar.appendChild(toolsBtn)
+
+  closeBtn.onclick = () => overlay.remove()
+
+  topBar.appendChild(closeBtn)
+  topBar.appendChild(title)
+
+  overlay.appendChild(topBar)
+  overlay.appendChild(menuBar)
+  overlay.appendChild(content)
+
+  document.body.appendChild(overlay)
+
+  renderCategory("nature") // default open
+}
+
 function run(){
   if(!currentLayer) return
 
@@ -219,107 +311,6 @@ bgBtn.onclick = () => {
   bgBtn.classList.toggle("active", !t.bg)
 
   renderLayers(layers, layerTransforms)
-}
-
-function formatCode(str){
-  str = str.replace(/></g, ">\n<")
-  let indent = 0
-  const lines = str.split("\n")
-
-  return lines.map(line=>{
-    line = line.trim()
-    if(line.startsWith("</")) indent--
-    let out = "  ".repeat(Math.max(indent,0)) + line
-    if(line.startsWith("<") && !line.startsWith("</") && !line.endsWith("/>") && !line.includes("</")) indent++
-    return out
-  }).join("\n")
-}
-
-/* =========================
-   🌿 CODE BUTTON = NATURE MENU
-   ========================= */
-toggleCodeBtn.onclick = () => {
-
-  const overlay = document.createElement("div")
-  overlay.style.position = "fixed"
-  overlay.style.inset = "0"
-  overlay.style.background = "rgba(0,0,0,0.9)"
-  overlay.style.zIndex = "99999"
-  overlay.style.display = "flex"
-  overlay.style.flexDirection = "column"
-  overlay.style.padding = "16px"
-  overlay.style.boxSizing = "border-box"
-
-  const topBar = document.createElement("div")
-  topBar.style.display = "flex"
-  topBar.style.gap = "10px"
-  topBar.style.marginBottom = "10px"
-
-  const closeBtn = document.createElement("button")
-  closeBtn.textContent = "Close"
-
-  const title = document.createElement("div")
-  title.textContent = "Nature"
-  title.style.color = "#d8ffe9"
-  title.style.display = "flex"
-  title.style.alignItems = "center"
-
-  const content = document.createElement("div")
-  content.style.flex = "1"
-  content.style.display = "flex"
-  content.style.flexDirection = "column"
-  content.style.gap = "10px"
-  content.style.marginTop = "10px"
-
-  const categories = {
-    nature: ["leaves", "water", "tree", "grass"]
-  }
-
-  function renderCategory(name){
-    content.innerHTML = ""
-
-    categories[name].forEach(item => {
-      const btn = document.createElement("button")
-      btn.textContent = item
-      btn.style.padding = "12px"
-      btn.style.background = "#07110d"
-      btn.style.color = "#d8ffe9"
-      btn.style.border = "1px solid #00a676"
-      btn.style.borderRadius = "8px"
-
-      btn.onclick = () => {
-        // placeholder: later this can load templates into editor
-        codeEl.value = `<${item}></${item}>`
-        overlay.remove()
-      }
-
-      content.appendChild(btn)
-    })
-  }
-
-  const menu = document.createElement("div")
-  menu.style.display = "flex"
-  menu.style.gap = "10px"
-  menu.style.marginBottom = "10px"
-
-  const natureBtn = document.createElement("button")
-  natureBtn.textContent = "nature"
-  natureBtn.onclick = () => renderCategory("nature")
-
-  menu.appendChild(natureBtn)
-
-  closeBtn.onclick = () => overlay.remove()
-
-  topBar.appendChild(closeBtn)
-  topBar.appendChild(title)
-
-  overlay.appendChild(topBar)
-  overlay.appendChild(menu)
-  overlay.appendChild(content)
-
-  document.body.appendChild(overlay)
-
-  renderCategory("nature")
 }
 
 toggleLayout.onclick=()=>{
