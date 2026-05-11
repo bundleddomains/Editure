@@ -21,6 +21,9 @@ const artH = document.getElementById("artH")
 const artX = document.getElementById("artX")
 const artY = document.getElementById("artY")
 
+/* SCALE INPUT */
+const previewScale = document.getElementById("previewScale")
+
 let currentLayer = 1
 let layers = {}
 let layerTransforms = {}
@@ -37,7 +40,8 @@ for(let i=1;i<=8;i++){
     w:"",
     h:"",
     tx:0,
-    ty:0
+    ty:0,
+    scale:100
   }
 }
 
@@ -63,6 +67,8 @@ function selectLayer(n){
     artX.value=0
     artY.value=0
 
+    if(previewScale) previewScale.value=100
+
     return
   }
 
@@ -82,6 +88,10 @@ function selectLayer(n){
 
   artX.value = layerTransforms[n].tx || 0
   artY.value = layerTransforms[n].ty || 0
+
+  if(previewScale){
+    previewScale.value = layerTransforms[n].scale || 100
+  }
 
   bgBtn.classList.toggle("active", !layerTransforms[n].bg)
 }
@@ -174,6 +184,14 @@ function updateArtPosition(){
   renderLayers(layers, layerTransforms)
 }
 
+function updatePreviewScale(){
+  if(!currentLayer || !previewScale) return
+
+  layerTransforms[currentLayer].scale = parseFloat(previewScale.value) || 100
+
+  renderLayers(layers, layerTransforms)
+}
+
 rotX.oninput = updateRotation
 rotY.oninput = updateRotation
 
@@ -185,6 +203,10 @@ artH.oninput = updateArtSize
 
 artX.oninput = updateArtPosition
 artY.oninput = updateArtPosition
+
+if(previewScale){
+  previewScale.oninput = updatePreviewScale
+}
 
 orbit.oninput=()=>{
   viewer.style.transform=`rotateY(${orbit.value}deg)`
