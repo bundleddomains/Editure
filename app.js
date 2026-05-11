@@ -17,11 +17,9 @@ const thick2 = document.getElementById("thick2")
 const artW = document.getElementById("artW")
 const artH = document.getElementById("artH")
 
-/* POSITION INPUTS */
 const artX = document.getElementById("artX")
 const artY = document.getElementById("artY")
 
-/* SCALE INPUT */
 const previewScale = document.getElementById("previewScale")
 
 let currentLayer = 1
@@ -237,17 +235,8 @@ function formatCode(str){
   }).join("\n")
 }
 
-toggleCodeBtn.onclick=()=>{
-  if(codeOptions.style.display==="block"){
-    codeOptions.style.display="none"
-    wrap.style.display="flex"
-    toggleCodeBtn.classList.remove("active")
-  }else{
-    codeOptions.style.display="block"
-    wrap.style.display="none"
-    toggleCodeBtn.classList.add("active")
-  }
-}
+/* 🔥 CODE BUTTON NOW DOES NOTHING */
+toggleCodeBtn.onclick = () => {}
 
 toggleLayout.onclick=()=>{
   horizontal = !horizontal
