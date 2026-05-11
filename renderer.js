@@ -47,6 +47,8 @@ function renderLayers(layers, layerTransforms){
       const moveX = t.tx || 0;
       const moveY = t.ty || 0;
 
+      const scale = (t.scale || 100) / 100;
+
       for(let y = 0; y < stackCountY; y++){
         for(let x = 0; x < stackCountX; x++){
 
@@ -64,7 +66,9 @@ function renderLayers(layers, layerTransforms){
               translate(
                 calc(-50% + ${xOffset + moveX}px),
                 calc(-50% + ${yOffset + moveY}px)
-              );
+              )
+              scale(${scale});
+            transform-origin:center center;
           ">
             ${content}
           </div>
@@ -146,6 +150,8 @@ body {
       const moveX = t.tx || 0;
       const moveY = t.ty || 0;
 
+      const scale = (t.scale || 100) / 100;
+
       for(let y = 0; y < stackCountY; y++){
         for(let x = 0; x < stackCountX; x++){
 
@@ -159,7 +165,8 @@ body {
     left:50%;
     width:${artW};
     height:${artH};
-    transform:translate(calc(-50% + ${xOffset + moveX}px), calc(-50% + ${yOffset + moveY}px));
+    transform:translate(calc(-50% + ${xOffset + moveX}px), calc(-50% + ${yOffset + moveY}px)) scale(${scale});
+    transform-origin:center center;
   ">
 ${content}
   </div>
