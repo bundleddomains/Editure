@@ -244,13 +244,6 @@ box-shadow .2s ease;
 filter:brightness(1.08);
 }
 
-/* ACTIVE */
-.size-slider:active,
-.move-slider:active,
-.scale-slider:active{
-transform:translateX(-50%) scale(1.02);
-}
-
 /* =========================
    SIZE
 ========================= */
@@ -314,13 +307,25 @@ transform-origin:center;
 .scale-slider{
 width:220px;
 height:10px;
-bottom:-118px;
+bottom:-100px;
 left:50%;
 transform:translateX(-50%);
 background:var(--slider-scale);
 box-shadow:
 0 0 12px rgba(120,190,255,0.25),
 0 0 30px rgba(120,190,255,0.08);
+}
+
+/* active states separated so vertical sliders don't get broken */
+.size-slider.horizontal:active,
+.move-slider.move-horizontal:active,
+.scale-slider:active{
+transform:translateX(-50%) scale(1.02);
+}
+
+.size-slider.vertical:active,
+.move-slider.move-vertical:active{
+transform:translateY(-50%) rotate(-90deg) scale(1.02);
 }
 
 /* =========================
