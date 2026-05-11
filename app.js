@@ -236,14 +236,14 @@ function formatCode(str){
 }
 
 /* =========================
-   🔥 CODE BUTTON = LIGHTBOX
+   🌿 CODE BUTTON = NATURE MENU
    ========================= */
 toggleCodeBtn.onclick = () => {
 
   const overlay = document.createElement("div")
   overlay.style.position = "fixed"
   overlay.style.inset = "0"
-  overlay.style.background = "rgba(0,0,0,0.88)"
+  overlay.style.background = "rgba(0,0,0,0.9)"
   overlay.style.zIndex = "99999"
   overlay.style.display = "flex"
   overlay.style.flexDirection = "column"
@@ -258,39 +258,68 @@ toggleCodeBtn.onclick = () => {
   const closeBtn = document.createElement("button")
   closeBtn.textContent = "Close"
 
-  const copyBtn = document.createElement("button")
-  copyBtn.textContent = "Copy"
+  const title = document.createElement("div")
+  title.textContent = "Nature"
+  title.style.color = "#d8ffe9"
+  title.style.display = "flex"
+  title.style.alignItems = "center"
 
-  const textarea = document.createElement("textarea")
-  textarea.value = codeEl.value || ""
-  textarea.style.flex = "1"
-  textarea.style.width = "100%"
-  textarea.style.background = "#07110d"
-  textarea.style.color = "#d8ffe9"
-  textarea.style.border = "1px solid #00a676"
-  textarea.style.borderRadius = "10px"
-  textarea.style.padding = "14px"
-  textarea.style.fontFamily = "monospace"
-  textarea.style.fontSize = "12px"
-  textarea.style.resize = "none"
-  textarea.style.outline = "none"
+  const content = document.createElement("div")
+  content.style.flex = "1"
+  content.style.display = "flex"
+  content.style.flexDirection = "column"
+  content.style.gap = "10px"
+  content.style.marginTop = "10px"
 
-  closeBtn.onclick = () => {
-    overlay.remove()
+  const categories = {
+    nature: ["leaves", "water", "tree", "grass"]
   }
 
-  copyBtn.onclick = async () => {
-    await navigator.clipboard.writeText(textarea.value)
-    copyBtn.textContent = "Copied"
+  function renderCategory(name){
+    content.innerHTML = ""
+
+    categories[name].forEach(item => {
+      const btn = document.createElement("button")
+      btn.textContent = item
+      btn.style.padding = "12px"
+      btn.style.background = "#07110d"
+      btn.style.color = "#d8ffe9"
+      btn.style.border = "1px solid #00a676"
+      btn.style.borderRadius = "8px"
+
+      btn.onclick = () => {
+        // placeholder: later this can load templates into editor
+        codeEl.value = `<${item}></${item}>`
+        overlay.remove()
+      }
+
+      content.appendChild(btn)
+    })
   }
+
+  const menu = document.createElement("div")
+  menu.style.display = "flex"
+  menu.style.gap = "10px"
+  menu.style.marginBottom = "10px"
+
+  const natureBtn = document.createElement("button")
+  natureBtn.textContent = "nature"
+  natureBtn.onclick = () => renderCategory("nature")
+
+  menu.appendChild(natureBtn)
+
+  closeBtn.onclick = () => overlay.remove()
 
   topBar.appendChild(closeBtn)
-  topBar.appendChild(copyBtn)
+  topBar.appendChild(title)
 
   overlay.appendChild(topBar)
-  overlay.appendChild(textarea)
+  overlay.appendChild(menu)
+  overlay.appendChild(content)
 
   document.body.appendChild(overlay)
+
+  renderCategory("nature")
 }
 
 toggleLayout.onclick=()=>{
