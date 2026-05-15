@@ -22,6 +22,8 @@ const artY = document.getElementById("artY")
 
 const previewScale = document.getElementById("previewScale")
 
+window.cameraOrbit = 0
+
 let currentLayer = 1
 let layers = {}
 let layerTransforms = {}
@@ -160,7 +162,6 @@ toggleCodeBtn.onclick = () => {
       btn.style.borderRadius = "8px"
 
       btn.onclick = () => {
-        // placeholder behavior
         codeEl.value = `<${item}></${item}>`
         overlay.remove()
       }
@@ -191,7 +192,7 @@ toggleCodeBtn.onclick = () => {
 
   document.body.appendChild(overlay)
 
-  renderCategory("nature") // default open
+  renderCategory("nature")
 }
 
 function run(){
@@ -298,8 +299,14 @@ if(previewScale){
   previewScale.oninput = updatePreviewScale
 }
 
-orbit.oninput=()=>{
-  viewer.style.transform=`rotateY(${orbit.value}deg)`
+/* 2P FIX:
+   camera orbit now rotates the actual rendered scene inside renderer.js,
+   not the outside iframe/viewer card.
+*/
+orbit.oninput = () => {
+  window.cameraOrbit = parseFloat(orbit.value) || 0
+  viewer.style.transform = "none"
+  renderLayers(layers, layerTransforms)
 }
 
 bgBtn.onclick = () => {
