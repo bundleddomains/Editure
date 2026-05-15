@@ -3,8 +3,11 @@ function renderLayers(layers, layerTransforms){
   const activeLayers = Object.values(layers).filter(v => v.trim() !== "");
   if(activeLayers.length === 0) return;
 
+  const cameraOrbit = window.cameraOrbit || 0;
+
   const xRot = layerTransforms[1].x || 0;
   const yRot = layerTransforms[1].y || 0;
+  const finalYRot = yRot + cameraOrbit;
 
   const thickness = layerTransforms[1].z || 0;
   const thickness2 = layerTransforms[1].z2 || 0;
@@ -26,10 +29,11 @@ function renderLayers(layers, layerTransforms){
     justify-content:center;
     isolation:isolate;
     perspective:1000px;
+    overflow:hidden;
   ">
     <div id="container" style="
       transform-style: preserve-3d;
-      transform: rotateX(${xRot}deg) rotateY(${yRot}deg);
+      transform: rotateX(${xRot}deg) rotateY(${finalYRot}deg);
       width:100%;
       height:100%;
       position:relative;
@@ -62,6 +66,7 @@ function renderLayers(layers, layerTransforms){
             left:50%;
             width:${artW};
             height:${artH};
+            transform-style:preserve-3d;
             transform:
               translate(
                 calc(-50% + ${xOffset + moveX}px),
@@ -89,8 +94,11 @@ function buildExportHTML(layers, layerTransforms){
     return "<!doctype html><html><body></body></html>";
   }
 
+  const cameraOrbit = window.cameraOrbit || 0;
+
   const xRot = layerTransforms[1].x || 0;
   const yRot = layerTransforms[1].y || 0;
+  const finalYRot = yRot + cameraOrbit;
 
   const thickness = layerTransforms[1].z || 0;
   const thickness2 = layerTransforms[1].z2 || 0;
@@ -130,7 +138,7 @@ body {
   height: 100vh;
   position: relative;
   transform-style: preserve-3d;
-  transform: rotateX(${xRot}deg) rotateY(${yRot}deg);
+  transform: rotateX(${xRot}deg) rotateY(${finalYRot}deg);
 }
 </style>
 </head>
@@ -165,6 +173,7 @@ body {
     left:50%;
     width:${artW};
     height:${artH};
+    transform-style:preserve-3d;
     transform:translate(calc(-50% + ${xOffset + moveX}px), calc(-50% + ${yOffset + moveY}px)) scale(${scale});
     transform-origin:center center;
   ">
