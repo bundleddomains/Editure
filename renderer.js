@@ -12,18 +12,45 @@ function inferSize(content,t){
     return {w:forcedW,h:forcedH};
   }
 
-  const widthMatch = content.match(/width\s*:\s*(\d+)px/i);
-  const heightMatch = content.match(/height\s*:\s*(\d+)px/i);
+  const widthMatches = [...content.matchAll(/width\s*:\s*(\d+)px/gi)].map(m=>Number(m[1]));
+  const heightMatches = [...content.matchAll(/height\s*:\s*(\d+)px/gi)].map(m=>Number(m[1]));
+
+  const foundW = widthMatches.length ? Math.max(...widthMatches) : 700;
+  const foundH = heightMatches.length ? Math.max(...heightMatches) : 700;
 
   return {
-    w: forcedW || (widthMatch ? `${widthMatch[1]}px` : "300px"),
-    h: forcedH || (heightMatch ? `${heightMatch[1]}px` : "300px")
+    w: forcedW || `${Math.max(foundW + 160,700)}px`,
+    h: forcedH || `${Math.max(foundH + 160,700)}px`
   };
 }
 
 function asSrcdoc(content){
   if(/<!doctype|<html/i.test(content)){
-    return content;
+    return `
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  background:transparent !important;
+  overflow:visible !important;
+}
+body{
+  display:grid !important;
+  place-items:center !important;
+}
+</style>
+</head>
+<body>
+<div class="render-center-stage">
+${content}
+</div>
+</body>
+</html>`;
   }
 
   return `
@@ -43,10 +70,16 @@ body{
   display:grid;
   place-items:center;
 }
+.render-center-stage{
+  position:relative;
+  overflow:visible;
+}
 </style>
 </head>
 <body>
+<div class="render-center-stage">
 ${content}
+</div>
 </body>
 </html>`;
 }
@@ -81,7 +114,7 @@ function renderLayers(layers, layerTransforms){
   align-items:center;
   justify-content:center;
   perspective:1000px;
-  overflow:hidden;
+  overflow:visible;
 ">
   <div id="container" style="
     width:100vw;
@@ -89,6 +122,7 @@ function renderLayers(layers, layerTransforms){
     position:relative;
     transform-style:preserve-3d;
     transform:rotateX(${xRot}deg) rotateY(${finalYRot}deg);
+    overflow:visible;
   ">
 `;
 
@@ -115,6 +149,7 @@ function renderLayers(layers, layerTransforms){
   left:50%;
   width:${size.w};
   height:${size.h};
+  overflow:visible;
   transform:
     translate(
       calc(-50% + ${xOffset + moveX}px),
@@ -133,6 +168,7 @@ function renderLayers(layers, layerTransforms){
       border:0;
       background:transparent;
       overflow:visible;
+      display:block;
     ">
   </iframe>
 </div>`;
