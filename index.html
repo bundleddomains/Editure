@@ -50,7 +50,7 @@ if (!window.location.search.includes("r=")) {
 
 <div id="bar">
 
-  <div class="row">
+  <div class="row scale-row">
     <label style="width:100%">Scale
       <input id="previewScale" type="range" min="25" max="200" value="100">
     </label>
@@ -68,31 +68,35 @@ if (!window.location.search.includes("r=")) {
     <button id="fxBtn">FX</button>
   </div>
 
-  <div id="codeOptions" aria-hidden="true">
-    <div class="code-collector" role="dialog" aria-modal="false" aria-label="Collect HTML CSS and JavaScript">
-      <button class="code-collect-btn" type="button" data-code-type="html">HTML</button>
-      <button class="code-collect-btn" type="button" data-code-type="css">CSS</button>
-      <button class="code-collect-btn" type="button" data-code-type="js">JS</button>
+  <div id="controlSwap">
+    <div id="adjustmentControls">
+      <div class="row" id="layers"></div>
+
+      <div class="row">
+        <label>X <input type="range" id="rotX" min="-60" max="60" value="0"></label>
+        <label>Y <input type="range" id="rotY" min="-180" max="180" value="0"></label>
+      </div>
+
+      <div class="row">
+        <label style="width:100%">Camera Orbit
+          <input type="range" id="orbit" min="-180" max="180" value="0">
+        </label>
+      </div>
+
+      <div class="row thick-row">
+        <span class="thick-label">Thick</span>
+        <input type="range" id="thick" min="-500" max="500" value="0">
+        <input type="range" id="thick2" min="-500" max="500" value="0">
+      </div>
     </div>
-  </div>
 
-  <div class="row" id="layers"></div>
-
-  <div class="row">
-    <label>X <input type="range" id="rotX" min="-60" max="60" value="0"></label>
-    <label>Y <input type="range" id="rotY" min="-180" max="180" value="0"></label>
-  </div>
-
-  <div class="row">
-    <label style="width:100%">Camera Orbit
-      <input type="range" id="orbit" min="-180" max="180" value="0">
-    </label>
-  </div>
-
-  <div class="row thick-row">
-    <span class="thick-label">Thick</span>
-    <input type="range" id="thick" min="-500" max="500" value="0">
-    <input type="range" id="thick2" min="-500" max="500" value="0">
+    <div id="codeOptions" aria-hidden="true">
+      <div class="code-collector" role="dialog" aria-modal="false" aria-label="Collect HTML CSS and JavaScript">
+        <button class="code-collect-btn" type="button" data-code-type="html">HTML</button>
+        <button class="code-collect-btn" type="button" data-code-type="css">CSS</button>
+        <button class="code-collect-btn" type="button" data-code-type="js">JS</button>
+      </div>
+    </div>
   </div>
 
 </div>
