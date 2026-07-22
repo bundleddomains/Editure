@@ -373,26 +373,77 @@ box-shadow:
 }
 
 /* =========================
-   CENTER CODE COLLECTOR
+   SLIDER / CODE COLLECTOR SWAP
    ========================= */
+.scale-row,
+.preview-size-controls{
+transition:
+opacity .24s ease,
+transform .24s ease;
+}
+
+body.code-mode .scale-row,
+body.code-mode .preview-size-controls{
+opacity:0;
+pointer-events:none;
+transform:translateY(8px);
+}
+
+#controlSwap{
+position:relative;
+display:grid;
+min-height:250px;
+}
+
+#adjustmentControls,
 #codeOptions{
-display:none;
-position:fixed;
-z-index:100000;
+grid-area:1 / 1;
+min-width:0;
+min-height:0;
+transition:
+opacity .24s ease,
+transform .24s ease,
+visibility 0s linear .24s;
+}
+
+#adjustmentControls{
+display:flex;
+flex-direction:column;
+gap:10px;
+opacity:1;
+visibility:visible;
+transform:translateY(0);
+}
+
+#codeOptions{
+display:flex;
 align-items:center;
 justify-content:center;
+opacity:0;
+visibility:hidden;
+transform:translateY(12px);
 pointer-events:none;
 }
 
-#codeOptions.open{
-display:flex;
+#controlSwap.code-mode #adjustmentControls{
+opacity:0;
+visibility:hidden;
+transform:translateY(10px);
+pointer-events:none;
+}
+
+#controlSwap.code-mode #codeOptions{
+opacity:1;
+visibility:visible;
+transform:translateY(0);
+pointer-events:auto;
+transition-delay:0s;
 }
 
 .code-collector{
 display:grid;
 gap:12px;
 place-items:center;
-pointer-events:auto;
 }
 
 .code-collect-btn{
@@ -412,13 +463,12 @@ box-shadow:
 }
 
 .code-collect-btn.collected{
-background:#4f7657;
+background:#765083;
 box-shadow:
 0 7px 18px rgba(0,0,0,.35),
-0 0 14px rgba(79,118,87,.25);
+0 0 14px rgba(118,80,131,.28);
 }
 
 .code-collect-btn:active{
 transform:scale(.96);
 }
-
