@@ -445,19 +445,40 @@ height:72px;
 padding:0;
 border:1px solid rgba(255,255,255,.14);
 border-radius:13px;
-background:#8f3150;
+
+/* Wineberry starting color */
+background-color:#8f3150;
+
+/* Plum circle starts in the middle */
+background-image:radial-gradient(
+circle,
+#765083 0%,
+#765083 69%,
+transparent 71%
+);
+background-repeat:no-repeat;
+background-position:center;
+background-size:0% 0%;
+
 color:#fff;
 font-size:20px;
 font-weight:900;
 letter-spacing:0;
 line-height:1;
+
 box-shadow:
 0 7px 18px rgba(0,0,0,.35),
 0 0 14px rgba(143,49,80,.24);
+
+transition:
+background-size .9s cubic-bezier(.65,0,.35,1),
+box-shadow .3s ease,
+transform .08s ease;
 }
 
 .code-collect-btn.collected{
-background:#765083;
+background-size:150% 150%;
+
 box-shadow:
 0 7px 18px rgba(0,0,0,.35),
 0 0 14px rgba(118,80,131,.28);
