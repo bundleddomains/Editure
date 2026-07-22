@@ -26,31 +26,7 @@ function inferSize(content,t){
 
 function asSrcdoc(content){
   if(/<!doctype|<html/i.test(content)){
-    return `
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  background:transparent !important;
-  overflow:visible !important;
-}
-body{
-  display:grid !important;
-  place-items:center !important;
-}
-</style>
-</head>
-<body>
-<div class="render-center-stage">
-${content}
-</div>
-</body>
-</html>`;
+    return content;
   }
 
   return `
