@@ -105,95 +105,113 @@ function stripBackgrounds(str){
 }
 
 /* =========================
-   🌿🧰 CODE BUTTON = MENU SYSTEM
+   CODE BUTTON = HTML / CSS / JS RUNNER
    ========================= */
-toggleCodeBtn.onclick = () => {
+const codeRunnerClose = document.getElementById("codeRunnerClose")
+const codeRunnerRun = document.getElementById("codeRunnerRun")
+const htmlCode = document.getElementById("htmlCode")
+const cssCode = document.getElementById("cssCode")
+const jsCode = document.getElementById("jsCode")
+const codeRunnerPreview = document.getElementById("codeRunnerPreview")
 
-  const overlay = document.createElement("div")
-  overlay.style.position = "fixed"
-  overlay.style.inset = "0"
-  overlay.style.background = "rgba(0,0,0,0.9)"
-  overlay.style.zIndex = "99999"
-  overlay.style.display = "flex"
-  overlay.style.flexDirection = "column"
-  overlay.style.padding = "16px"
-  overlay.style.boxSizing = "border-box"
-
-  const topBar = document.createElement("div")
-  topBar.style.display = "flex"
-  topBar.style.gap = "10px"
-  topBar.style.marginBottom = "10px"
-
-  const closeBtn = document.createElement("button")
-  closeBtn.textContent = "Close"
-
-  const title = document.createElement("div")
-  title.textContent = "Menu"
-  title.style.color = "#d8ffe9"
-  title.style.display = "flex"
-  title.style.alignItems = "center"
-
-  const menuBar = document.createElement("div")
-  menuBar.style.display = "flex"
-  menuBar.style.gap = "10px"
-  menuBar.style.marginBottom = "10px"
-
-  const content = document.createElement("div")
-  content.style.flex = "1"
-  content.style.display = "flex"
-  content.style.flexDirection = "column"
-  content.style.gap = "10px"
-
-  const categories = {
-    nature: ["leaves", "water", "tree", "grass"],
-    tools: ["Editure", "replace&erase", "Queb.site"]
-  }
-
-  function renderCategory(name){
-    content.innerHTML = ""
-
-    categories[name].forEach(item => {
-      const btn = document.createElement("button")
-      btn.textContent = item
-      btn.style.padding = "12px"
-      btn.style.background = "#07110d"
-      btn.style.color = "#d8ffe9"
-      btn.style.border = "1px solid #00a676"
-      btn.style.borderRadius = "8px"
-
-      btn.onclick = () => {
-        codeEl.value = `<${item}></${item}>`
-        overlay.remove()
-      }
-
-      content.appendChild(btn)
-    })
-  }
-
-  const natureBtn = document.createElement("button")
-  natureBtn.textContent = "nature"
-  natureBtn.onclick = () => renderCategory("nature")
-
-  const toolsBtn = document.createElement("button")
-  toolsBtn.textContent = "tools"
-  toolsBtn.onclick = () => renderCategory("tools")
-
-  menuBar.appendChild(natureBtn)
-  menuBar.appendChild(toolsBtn)
-
-  closeBtn.onclick = () => overlay.remove()
-
-  topBar.appendChild(closeBtn)
-  topBar.appendChild(title)
-
-  overlay.appendChild(topBar)
-  overlay.appendChild(menuBar)
-  overlay.appendChild(content)
-
-  document.body.appendChild(overlay)
-
-  renderCategory("nature")
+function unwrapRunnerCode(text, tag){
+  const re = new RegExp("^\\s*<" + tag + "\\b[^>]*>([\\s\\S]*?)<\\/" + tag + ">\\s*$", "i")
+  const match = String(text || "").match(re)
+  return match ? match[1] : String(text || "")
 }
+
+function buildRunnerDocument(){
+  let html = htmlCode.value.trim()
+  const css = unwrapRunnerCode(cssCode.value, "style")
+  const js = unwrapRunnerCode(jsCode.value, "script")
+  const styleTag = `<style>\n${css}\n</style>`
+  const safeJs = js.replace(/<\/script/gi, "<\\/script")
+  const scriptTag = `<script>\n${safeJs}\n<\/script>`
+
+  if(!/<html[\s>]/i.test(html) && !/<!doctype/i.test(html)){
+    return `<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+${styleTag}
+</head>
+<body>
+${html}
+${scriptTag}
+</body>
+</html>`
+  }
+
+  if(/<\/head>/i.test(html)){
+    html = html.replace(/<\/head>/i, styleTag + "</head>")
+  }else if(/<html([^>]*)>/i.test(html)){
+    html = html.replace(
+      /<html([^>]*)>/i,
+      `<html$1><head><meta charset="utf-8">${styleTag}</head>`
+    )
+  }else{
+    html = styleTag + html
+  }
+
+  if(/<\/body>/i.test(html)){
+    html = html.replace(/<\/body>/i, scriptTag + "</body>")
+  }else{
+    html += scriptTag
+  }
+
+  return html
+}
+
+function openCodeRunner(){
+  codeOptions.classList.add("open")
+  codeOptions.setAttribute("aria-hidden", "false")
+  htmlCode.focus()
+
+  if(!codeRunnerPreview.srcdoc){
+    codeRunnerPreview.srcdoc = `<!doctype html>
+<html>
+<body style="margin:0;display:grid;place-items:center;height:100vh;font-family:system-ui;color:#8893a0">
+Your result appears here.
+</body>
+</html>`
+  }
+}
+
+function closeCodeRunner(){
+  codeOptions.classList.remove("open")
+  codeOptions.setAttribute("aria-hidden", "true")
+}
+
+function runCodeRunner(){
+  codeRunnerPreview.srcdoc = buildRunnerDocument()
+  codeRunnerRun.textContent = "Running"
+  setTimeout(() => {
+    codeRunnerRun.textContent = "Run"
+  }, 650)
+}
+
+toggleCodeBtn.onclick = openCodeRunner
+codeRunnerClose.onclick = closeCodeRunner
+codeRunnerRun.onclick = runCodeRunner
+
+codeOptions.addEventListener("click", event => {
+  if(event.target === codeOptions) closeCodeRunner()
+})
+
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape" && codeOptions.classList.contains("open")){
+    closeCodeRunner()
+  }
+
+  if(
+    codeOptions.classList.contains("open") &&
+    (event.ctrlKey || event.metaKey) &&
+    event.key === "Enter"
+  ){
+    event.preventDefault()
+    runCodeRunner()
+  }
+})
 
 function run(){
   if(!currentLayer) return
