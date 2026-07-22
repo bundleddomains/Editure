@@ -31,20 +31,6 @@
   opacity: 0.7;
 }
 
-#codeOptions {
-  width: 100%;
-  display: none;
-  height: 400px;
-  margin-top: 8px;
-}
-
-#toolFrame {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 12px;
-  background: #000;
-}
 
 .panel.horizontal {
   width: 700px;
@@ -82,12 +68,39 @@ if (!window.location.search.includes("r=")) {
     <button id="fxBtn">FX</button>
   </div>
 
-  <div id="codeOptions">
-    <iframe
-      id="toolFrame"
-      src="htmlo/index.html"
-      title="HTMLO Tool">
-    </iframe>
+  <div id="codeOptions" aria-hidden="true">
+    <section class="code-runner" role="dialog" aria-modal="true" aria-label="HTML CSS JavaScript runner">
+      <div class="code-runner-bar">
+        <strong>CODE</strong>
+        <span>Paste three separate files and run them together.</span>
+        <button id="codeRunnerClose" type="button">Close</button>
+        <button id="codeRunnerRun" type="button">Run</button>
+      </div>
+
+      <div class="code-runner-workspace">
+        <div class="code-runner-editors">
+          <label class="code-runner-editor">
+            <span>HTML</span>
+            <textarea id="htmlCode" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Paste HTML here"></textarea>
+          </label>
+
+          <label class="code-runner-editor">
+            <span>CSS</span>
+            <textarea id="cssCode" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Paste CSS here"></textarea>
+          </label>
+
+          <label class="code-runner-editor">
+            <span>JS</span>
+            <textarea id="jsCode" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Paste JavaScript here"></textarea>
+          </label>
+        </div>
+
+        <div class="code-runner-preview">
+          <span>PREVIEW</span>
+          <iframe id="codeRunnerPreview" title="Rendered result" sandbox="allow-scripts allow-forms allow-modals allow-pointer-lock"></iframe>
+        </div>
+      </div>
+    </section>
   </div>
 
   <div class="row" id="layers"></div>
