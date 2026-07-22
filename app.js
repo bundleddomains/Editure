@@ -105,25 +105,41 @@ function stripBackgrounds(str){
 }
 
 /* =========================
-   CODE BUTTON = HTML / CSS / JS RUNNER
+   CODE BUTTON = CLIPBOARD COLLECTOR
    ========================= */
-const codeRunnerClose = document.getElementById("codeRunnerClose")
-const codeRunnerRun = document.getElementById("codeRunnerRun")
-const htmlCode = document.getElementById("htmlCode")
-const cssCode = document.getElementById("cssCode")
-const jsCode = document.getElementById("jsCode")
-const codeRunnerPreview = document.getElementById("codeRunnerPreview")
+const codeCollectorButtons = [...document.querySelectorAll(".code-collect-btn")]
+const collectedCode = {
+  html:"",
+  css:"",
+  js:""
+}
 
-function unwrapRunnerCode(text, tag){
+function unwrapCollectedCode(text, tag){
   const re = new RegExp("^\\s*<" + tag + "\\b[^>]*>([\\s\\S]*?)<\\/" + tag + ">\\s*$", "i")
   const match = String(text || "").match(re)
   return match ? match[1] : String(text || "")
 }
 
-function buildRunnerDocument(){
-  let html = htmlCode.value.trim()
-  const css = unwrapRunnerCode(cssCode.value, "style")
-  const js = unwrapRunnerCode(jsCode.value, "script")
+function stripCollectedFileLinks(html){
+  const isRemote = value => /^(https?:)?\/\//i.test(value) || /^data:/i.test(value)
+
+  html = html.replace(
+    /<link\b[^>]*href=["']([^"']+)["'][^>]*>/gi,
+    (tag, href) => isRemote(href) ? tag : ""
+  )
+
+  html = html.replace(
+    /<script\b[^>]*src=["']([^"']+)["'][^>]*>\s*<\/script>/gi,
+    (tag, src) => isRemote(src) ? tag : ""
+  )
+
+  return html
+}
+
+function buildCollectedDocument(){
+  let html = stripCollectedFileLinks(collectedCode.html.trim())
+  const css = unwrapCollectedCode(collectedCode.css, "style")
+  const js = unwrapCollectedCode(collectedCode.js, "script")
   const styleTag = `<style>\n${css}\n</style>`
   const safeJs = js.replace(/<\/script/gi, "<\\/script")
   const scriptTag = `<script>\n${safeJs}\n<\/script>`
@@ -162,61 +178,73 @@ ${scriptTag}
   return html
 }
 
-function openCodeRunner(){
-  codeOptions.classList.add("open")
-  codeOptions.setAttribute("aria-hidden", "false")
-  htmlCode.focus()
-
-  if(!codeRunnerPreview.srcdoc){
-    codeRunnerPreview.srcdoc = `<!doctype html>
-<html>
-<body style="margin:0;display:grid;place-items:center;height:100vh;font-family:system-ui;color:#8893a0">
-Your result appears here.
-</body>
-</html>`
-  }
+function positionCodeCollector(){
+  const rect = wrap.getBoundingClientRect()
+  codeOptions.style.left = `${rect.left}px`
+  codeOptions.style.top = `${rect.top}px`
+  codeOptions.style.width = `${rect.width}px`
+  codeOptions.style.height = `${rect.height}px`
 }
 
-function closeCodeRunner(){
+function openCodeCollector(){
+  positionCodeCollector()
+  codeOptions.classList.add("open")
+  codeOptions.setAttribute("aria-hidden", "false")
+}
+
+function closeCodeCollector(){
   codeOptions.classList.remove("open")
   codeOptions.setAttribute("aria-hidden", "true")
 }
 
-function runCodeRunner(){
-  codeRunnerPreview.srcdoc = buildRunnerDocument()
-  codeRunnerRun.textContent = "Running"
-  setTimeout(() => {
-    codeRunnerRun.textContent = "Run"
-  }, 650)
+function hasCollectedCode(){
+  return Object.values(collectedCode).some(value => value.trim() !== "")
 }
 
-toggleCodeBtn.onclick = openCodeRunner
-codeRunnerClose.onclick = closeCodeRunner
-codeRunnerRun.onclick = runCodeRunner
+async function collectCode(type, button){
+  const text = await navigator.clipboard.readText()
+  if(!text.trim()) return
 
-codeOptions.addEventListener("click", event => {
-  if(event.target === codeOptions) closeCodeRunner()
+  collectedCode[type] = text
+  button.classList.add("collected")
+}
+
+codeCollectorButtons.forEach(button => {
+  button.onclick = () => {
+    const type = button.dataset.codeType
+    collectCode(type, button).catch(() => alert("paste blocked"))
+  }
+})
+
+toggleCodeBtn.onclick = () => {
+  if(codeOptions.classList.contains("open")){
+    closeCodeCollector()
+  }else{
+    openCodeCollector()
+  }
+}
+
+window.addEventListener("resize", () => {
+  if(codeOptions.classList.contains("open")){
+    positionCodeCollector()
+  }
 })
 
 document.addEventListener("keydown", event => {
-  if(event.key === "Escape" && codeOptions.classList.contains("open")){
-    closeCodeRunner()
-  }
-
-  if(
-    codeOptions.classList.contains("open") &&
-    (event.ctrlKey || event.metaKey) &&
-    event.key === "Enter"
-  ){
-    event.preventDefault()
-    runCodeRunner()
-  }
+  if(event.key === "Escape") closeCodeCollector()
 })
 
 function run(){
   if(!currentLayer) return
 
-  const raw=(codeEl.value||"").trim()
+  let raw=(codeEl.value||"").trim()
+
+  if(hasCollectedCode()){
+    raw=buildCollectedDocument()
+    codeEl.value=raw
+    closeCodeCollector()
+  }
+
   const t = layerTransforms[currentLayer]
 
   const processed = t.bg ? raw : stripBackgrounds(raw)
@@ -238,6 +266,16 @@ function clearLayer(){
 
   layers[currentLayer]=""
   codeEl.value=""
+
+  Object.keys(collectedCode).forEach(type => {
+    collectedCode[type]=""
+  })
+
+  codeCollectorButtons.forEach(button => {
+    button.classList.remove("collected")
+  })
+
+  closeCodeCollector()
   renderLayers(layers, layerTransforms)
 }
 
