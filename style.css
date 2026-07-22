@@ -375,44 +375,38 @@ box-shadow:
 /* =========================
    SLIDER / CODE COLLECTOR SWAP
    ========================= */
-.scale-row,
-.preview-size-controls{
-transition:
-opacity .24s ease,
-transform .24s ease;
-}
-
-body.code-mode .scale-row,
-body.code-mode .preview-size-controls{
-opacity:0;
-pointer-events:none;
-transform:translateY(8px);
-}
 
 #controlSwap{
 position:relative;
-display:grid;
-min-height:250px;
 }
 
-#adjustmentControls,
+/* Layers always remain visible */
+#adjustmentControls{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+/* Sliders and code squares share the exact same space */
+#sliderSwap{
+display:grid;
+position:relative;
+}
+
+#sliderControls,
 #codeOptions{
 grid-area:1 / 1;
 min-width:0;
-min-height:0;
-transition:
-opacity .24s ease,
-transform .24s ease,
-visibility 0s linear .24s;
+transition:opacity .16s ease;
 }
 
-#adjustmentControls{
+#sliderControls{
 display:flex;
 flex-direction:column;
 gap:10px;
 opacity:1;
 visibility:visible;
-transform:translateY(0);
+pointer-events:auto;
 }
 
 #codeOptions{
@@ -421,28 +415,26 @@ align-items:center;
 justify-content:center;
 opacity:0;
 visibility:hidden;
-transform:translateY(12px);
 pointer-events:none;
 }
 
-#controlSwap.code-mode #adjustmentControls{
+/* Only the lower adjustment sliders disappear */
+#controlSwap.code-mode #sliderControls{
 opacity:0;
 visibility:hidden;
-transform:translateY(10px);
 pointer-events:none;
 }
 
+/* Code squares occupy the slider area */
 #controlSwap.code-mode #codeOptions{
 opacity:1;
 visibility:visible;
-transform:translateY(0);
 pointer-events:auto;
-transition-delay:0s;
 }
 
 .code-collector{
 display:grid;
-grid-template-columns:repeat(3, 72px);
+grid-template-columns:repeat(3,72px);
 gap:12px;
 place-items:center;
 }
