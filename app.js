@@ -108,6 +108,7 @@ function stripBackgrounds(str){
    CODE BUTTON = CLIPBOARD COLLECTOR
    ========================= */
 const codeCollectorButtons = [...document.querySelectorAll(".code-collect-btn")]
+const controlSwap = document.getElementById("controlSwap")
 const collectedCode = {
   html:"",
   css:"",
@@ -178,22 +179,15 @@ ${scriptTag}
   return html
 }
 
-function positionCodeCollector(){
-  const rect = wrap.getBoundingClientRect()
-  codeOptions.style.left = `${rect.left}px`
-  codeOptions.style.top = `${rect.top}px`
-  codeOptions.style.width = `${rect.width}px`
-  codeOptions.style.height = `${rect.height}px`
-}
-
 function openCodeCollector(){
-  positionCodeCollector()
-  codeOptions.classList.add("open")
+  document.body.classList.add("code-mode")
+  controlSwap.classList.add("code-mode")
   codeOptions.setAttribute("aria-hidden", "false")
 }
 
 function closeCodeCollector(){
-  codeOptions.classList.remove("open")
+  document.body.classList.remove("code-mode")
+  controlSwap.classList.remove("code-mode")
   codeOptions.setAttribute("aria-hidden", "true")
 }
 
@@ -217,18 +211,12 @@ codeCollectorButtons.forEach(button => {
 })
 
 toggleCodeBtn.onclick = () => {
-  if(codeOptions.classList.contains("open")){
+  if(controlSwap.classList.contains("code-mode")){
     closeCodeCollector()
   }else{
     openCodeCollector()
   }
 }
-
-window.addEventListener("resize", () => {
-  if(codeOptions.classList.contains("open")){
-    positionCodeCollector()
-  }
-})
 
 document.addEventListener("keydown", event => {
   if(event.key === "Escape") closeCodeCollector()
