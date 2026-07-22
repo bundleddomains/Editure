@@ -471,7 +471,7 @@ box-shadow:
 0 0 14px rgba(143,49,80,.24);
 
 transition:
-background-size .40 cubic-bezier(.65,0,.35,1),
+background-size .40s cubic-bezier(.65,0,.35,1),
 box-shadow .3s ease,
 transform .08s ease;
 }
