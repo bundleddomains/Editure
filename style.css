@@ -371,3 +371,160 @@ box-shadow:
 0 0 14px rgba(160,220,255,0.5),
 0 0 30px rgba(160,220,255,0.18);
 }
+
+/* =========================
+   ROOT HTML / CSS / JS RUNNER
+   ========================= */
+#codeOptions{
+display:none;
+position:fixed;
+inset:0;
+z-index:100000;
+padding:14px;
+background:rgba(0,0,0,0.92);
+}
+
+#codeOptions.open{
+display:flex;
+}
+
+.code-runner{
+width:100%;
+height:100%;
+min-width:0;
+min-height:0;
+display:grid;
+grid-template-rows:auto minmax(0,1fr);
+gap:10px;
+padding:10px;
+background:#0e1116;
+border:1px solid #2a3340;
+border-radius:14px;
+box-shadow:0 24px 80px rgba(0,0,0,0.55);
+}
+
+.code-runner-bar{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.code-runner-bar strong{
+color:#f3f7fb;
+letter-spacing:.08em;
+}
+
+.code-runner-bar span{
+flex:1;
+color:#8f9baa;
+font-size:12px;
+}
+
+#codeRunnerClose{
+background:#3b424d;
+box-shadow:none;
+}
+
+#codeRunnerRun{
+background:#4caf50;
+box-shadow:0 0 10px rgba(76,175,80,0.6);
+}
+
+.code-runner-workspace{
+min-width:0;
+min-height:0;
+display:grid;
+grid-template-columns:minmax(270px,.9fr) minmax(300px,1.1fr);
+gap:10px;
+}
+
+.code-runner-editors{
+min-width:0;
+min-height:0;
+display:grid;
+grid-template-rows:repeat(3,minmax(0,1fr));
+gap:8px;
+}
+
+.code-runner-editor{
+min-width:0;
+min-height:0;
+display:grid;
+grid-template-rows:auto minmax(0,1fr);
+gap:0;
+align-items:stretch;
+overflow:hidden;
+background:#151922;
+border:1px solid #2a3340;
+border-radius:10px;
+}
+
+.code-runner-editor span,
+.code-runner-preview > span{
+display:block;
+padding:7px 10px;
+color:#dce6ef;
+font-size:12px;
+font-weight:900;
+letter-spacing:.08em;
+}
+
+.code-runner-editor textarea{
+width:100%;
+height:100%;
+min-height:0;
+margin:0;
+padding:10px;
+resize:none;
+border:0;
+border-top:1px solid #2a3340;
+border-radius:0;
+outline:0;
+background:#090c11;
+color:#d8ffe9;
+font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+tab-size:2;
+}
+
+.code-runner-preview{
+min-width:0;
+min-height:0;
+display:grid;
+grid-template-rows:auto minmax(0,1fr);
+overflow:hidden;
+background:#fff;
+border:1px solid #2a3340;
+border-radius:10px;
+}
+
+.code-runner-preview > span{
+background:#151922;
+}
+
+#codeRunnerPreview{
+width:100%;
+height:100%;
+border:0;
+background:#fff;
+}
+
+@media(max-width:720px){
+#codeOptions{
+padding:8px;
+}
+
+.code-runner{
+padding:8px;
+}
+
+.code-runner-bar span{
+display:none;
+}
+
+.code-runner-workspace{
+grid-template-columns:1fr;
+grid-template-rows:minmax(245px,.9fr) minmax(190px,1.1fr);
+}
+}
+
+
